@@ -1,3 +1,5 @@
+import { DAY_KEYS, cafeStatus, dublinNow, heroStatus } from "./src/status.js";
+
 const root = document.documentElement;
 root.classList.add("js");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)");
@@ -43,27 +45,44 @@ reduce.addEventListener("change", () => {
   setMotion(reduce.matches);
   updatePour();
 });
+// Menu mobile: painel de tela cheia. Trava o scroll da página, fecha com Esc,
+// com o X e ao escolher um link, e prende o foco entre o X e o painel.
 const menu = document.querySelector("#menu"),
-  nav = document.querySelector("#nav");
-function closeMenu() {
-  menu.setAttribute("aria-expanded", "false");
-  menu.setAttribute("aria-label", "Open menu");
-  nav.classList.remove("open");
-}
-menu.addEventListener("click", () => {
-  const open = menu.getAttribute("aria-expanded") !== "true";
+  panel = document.querySelector("#menu-panel");
+const menuOpen = () => menu.getAttribute("aria-expanded") === "true";
+function setMenu(open, { returnFocus = false } = {}) {
   menu.setAttribute("aria-expanded", String(open));
   menu.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  nav.classList.toggle("open", open);
-});
-nav
+  panel.hidden = !open;
+  root.classList.toggle("menu-open", open);
+  if (open) panel.querySelector("a").focus({ preventScroll: true });
+  else if (returnFocus) menu.focus({ preventScroll: true });
+}
+menu.addEventListener("click", () => setMenu(!menuOpen()));
+panel
   .querySelectorAll("a")
-  .forEach((a) => a.addEventListener("click", closeMenu));
+  .forEach((a) => a.addEventListener("click", () => setMenu(false)));
 document.addEventListener("keydown", (e) => {
+  if (!menuOpen()) return;
   if (e.key === "Escape") {
-    closeMenu();
-    menu.focus();
+    setMenu(false, { returnFocus: true });
+  } else if (e.key === "Tab") {
+    const items = [menu, ...panel.querySelectorAll("a")];
+    const index = items.indexOf(document.activeElement);
+    const next = e.shiftKey
+      ? index <= 0
+        ? items.length - 1
+        : index - 1
+      : index === items.length - 1
+        ? 0
+        : index + 1;
+    e.preventDefault();
+    items[next].focus();
   }
+});
+// Se a tela crescer até o layout de desktop com o menu aberto, fecha.
+matchMedia("(min-width: 761px)").addEventListener("change", (e) => {
+  if (e.matches && menuOpen()) setMenu(false);
 });
 const reveal = new IntersectionObserver(
   (entries) =>
@@ -175,88 +194,67 @@ function scrollEffect() {
 }
 window.addEventListener("scroll", scrollEffect, { passive: true });
 document.querySelector("#year").textContent = new Date().getFullYear();
-// Status ao vivo dos cafés, sempre no horário de Dublin.
-const DAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-const DAY_NAMES = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
-const dublinClock = new Intl.DateTimeFormat("en-GB", {
-  timeZone: "Europe/Dublin",
-  weekday: "short",
-  hour: "2-digit",
-  minute: "2-digit",
-  hourCycle: "h23",
-});
-function dublinNow() {
-  const parts = Object.fromEntries(
-    dublinClock.formatToParts(new Date()).map((p) => [p.type, p.value]),
-  );
-  return {
-    day: DAY_KEYS.indexOf(parts.weekday.toLowerCase().slice(0, 3)),
-    minutes: Number(parts.hour) * 60 + Number(parts.minute),
-  };
-}
-const toMinutes = (time) => {
-  const [h, m] = time.split(":").map(Number);
-  return h * 60 + m;
-};
-// "07:00" -> "7am", "15:50" -> "3.50pm"
-function formatTime(time) {
-  const [h, m] = time.split(":").map(Number);
-  return `${h % 12 || 12}${m ? `.${String(m).padStart(2, "0")}` : ""}${h < 12 ? "am" : "pm"}`;
-}
-function cafeStatus(hours, { day, minutes }) {
-  const today = hours[DAY_KEYS[day]];
-  if (
-    today &&
-    minutes >= toMinutes(today[0]) &&
-    minutes < toMinutes(today[1])
-  ) {
-    return { open: true, text: `Open now · until ${formatTime(today[1])}` };
+// Status ao vivo (src/status.js), sempre no horário de Dublin: cards de
+// #cafes, lojas do menu mobile e a linha da hero. Sem JS, nada disso aparece
+// e o HTML mostra só a tabela e "Find us in Dundrum & Terenure".
+const cafeCards = [...document.querySelectorAll(".cafe-card[data-hours]")];
+const heroLine = document.querySelector("[data-hero-status]");
+function setStatus(el, status) {
+  el.dataset.open = String(status.open);
+  el.replaceChildren();
+  if (el === heroLine) {
+    const dot = document.createElement("span");
+    dot.className = "status-dot";
+    dot.setAttribute("aria-hidden", "true");
+    el.append(dot);
   }
-  if (today && minutes < toMinutes(today[0])) {
-    return {
-      open: false,
-      text: `Closed · opens ${formatTime(today[0])} today`,
-    };
-  }
-  for (let ahead = 1; ahead <= 7; ahead++) {
-    const next = (day + ahead) % 7;
-    const hoursNext = hours[DAY_KEYS[next]];
-    if (!hoursNext) continue;
-    // "tomorrow" só de terça a sexta; sábado e segunda vão pelo nome do dia.
-    const when =
-      ahead === 1 && next >= 1 && next <= 4 ? "tomorrow" : DAY_NAMES[next];
-    return {
-      open: false,
-      text: `Closed · opens ${formatTime(hoursNext[0])} ${when}`,
-    };
-  }
-  return null;
+  el.append(status.text);
+  el.hidden = false;
 }
-function updateCafes() {
+function updateStatus() {
   const now = dublinNow();
-  document.querySelectorAll(".cafe-card[data-hours]").forEach((card) => {
-    const status = cafeStatus(JSON.parse(card.dataset.hours), now);
-    const el = card.querySelector("[data-status]");
-    if (status) {
-      el.textContent = status.text;
-      el.dataset.open = String(status.open);
-      el.hidden = false;
-    }
-    card.querySelectorAll("tr[data-days]").forEach((row) => {
+  document.querySelectorAll("[data-hours]").forEach((place) => {
+    const status = cafeStatus(JSON.parse(place.dataset.hours), now);
+    if (status) setStatus(place.querySelector("[data-status]"), status);
+    place.querySelectorAll("tr[data-days]").forEach((row) => {
       row.classList.toggle(
         "today",
         row.dataset.days.split(" ").includes(DAY_KEYS[now.day]),
       );
     });
   });
+  const hero = heroStatus(
+    cafeCards.map((card) => ({
+      name: card.querySelector(".cafe-name").textContent,
+      hours: JSON.parse(card.dataset.hours),
+    })),
+    now,
+  );
+  if (hero) setStatus(heroLine, hero);
 }
-updateCafes();
-setInterval(updateCafes, 60000);
+updateStatus();
+setInterval(updateStatus, 60000);
+
+// Link do header da seção que está na tela.
+const navSections = ["cafes", "coffee", "gifts", "reviews"];
+const onScreen = new Set();
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) =>
+      entry.isIntersecting
+        ? onScreen.add(entry.target.id)
+        : onScreen.delete(entry.target.id),
+    );
+    const active = navSections.find((id) => onScreen.has(id));
+    document.querySelectorAll("#nav a, .menu-links a").forEach((link) => {
+      const isActive = link.getAttribute("href") === `#${active}`;
+      link.classList.toggle("is-active", isActive);
+      if (isActive) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    });
+  },
+  { rootMargin: "-40% 0px -55% 0px" },
+);
+navSections.forEach((id) =>
+  sectionObserver.observe(document.getElementById(id)),
+);

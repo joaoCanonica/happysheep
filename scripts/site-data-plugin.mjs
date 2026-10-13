@@ -5,6 +5,7 @@
 // dos cafés.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import QRCode from "qrcode";
+import { formatTime } from "../src/status.js";
 import { INSTAGRAM_URL, SITE_URL } from "./site.config.mjs";
 
 const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
@@ -27,13 +28,6 @@ const escape = (text) =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-
-// "07:00" -> "7am", "15:50" -> "3.50pm"
-export function formatTime(time) {
-  const [h, m] = time.split(":").map(Number);
-  const hour = h % 12 || 12;
-  return `${hour}${m ? `.${String(m).padStart(2, "0")}` : ""}${h < 12 ? "am" : "pm"}`;
-}
 
 // Junta dias seguidos com o mesmo horário: Monday–Friday, Saturday, Sunday.
 function groupHours(hours) {
@@ -194,6 +188,38 @@ function reviewButtons(data, locations) {
     .join("\n        ");
 }
 
+// Selo "Open from 7am / Saturdays from 8am": abertura mais cedo entre as
+// lojas, em dia de semana e no sábado.
+function cafesStamp(locations) {
+  const earliest = (day) =>
+    locations
+      .map((loc) => loc.hours[day]?.[0])
+      .filter(Boolean)
+      .sort()[0];
+  return `<div class="stamp cafes-stamp" aria-hidden="true">
+            <span>Open from</span> <strong>${formatTime(earliest("mon"))}</strong>
+            <span>Saturdays from ${formatTime(earliest("sat"))}</span>
+          </div>`;
+}
+
+// Lojas no menu mobile: nome, status ao vivo (main.js) e rota.
+function menuCafes(locations) {
+  const items = locations
+    .map(
+      (loc) => `
+        <li data-hours='${escape(JSON.stringify(loc.hours))}'>
+          <strong>${escape(loc.name)}</strong>
+          <span class="cafe-status" data-status hidden></span>
+          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener"
+            >Directions ↗</a
+          >
+        </li>`,
+    )
+    .join("");
+  return `<ul class="menu-cafes" aria-label="Our cafés">${items}
+      </ul>`;
+}
+
 function cafesSection(locations, data) {
   const cards = locations
     .map((loc) => {
@@ -252,6 +278,7 @@ function cafesSection(locations, data) {
               <span class="br">Two cafés,</span> <em>south Dublin.</em>
             </h2>
           </div>
+          ${cafesStamp(locations)}
         </div>
         <div class="cafe-grid">${cards}
         </div>
@@ -481,6 +508,7 @@ export default function siteData() {
         })
         .replace("<!-- @review-buttons -->", reviewButtons(reviews, locations))
         .replace("<!-- @cafes -->", cafesSection(locations, reviews))
+        .replace("<!-- @menu-cafes -->", menuCafes(locations))
         .replace("<!-- @faq -->", faqSection(faq))
         .replace("<!-- @jsonld -->", jsonLd(locations, faq));
     },

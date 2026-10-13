@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "format": "prettier --write index.html style.css main.js",
     "media": "node scripts/optimize-media.mjs",
-    "test:media": "playwright test tests/media-sharpness.spec.mjs"
+    "test:media": "playwright test tests/media-sharpness.spec.mjs",
+    "test:unit": "node --test tests/status.test.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",

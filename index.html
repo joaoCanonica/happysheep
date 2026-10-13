@@ -71,13 +71,21 @@
     <a href="#main" class="skip">Skip to content</a>
     <header class="header">
       <a class="brand" href="#home" aria-label="Happy Sheep Dublin home"
-        ><img
-          src="/assets/logo.webp"
-          decoding="async"
-          width="150"
-          height="150"
-          alt="Happy Sheep Dublin"
-      /></a>
+        ><picture>
+          <source
+            type="image/webp"
+            srcset="
+              /assets/logo-clear.webp    1x,
+              /assets/logo-clear@2x.webp 2x
+            " />
+          <img
+            src="/assets/logo-clear.png"
+            srcset="/assets/logo-clear.png 1x, /assets/logo-clear@2x.png 2x"
+            width="150"
+            height="150"
+            alt="Happy Sheep Dublin"
+            decoding="async" /></picture
+      ></a>
       <nav id="nav" aria-label="Main navigation">
         <a href="#cafes">Our cafés</a><a href="#coffee">Coffee</a
         ><a href="#gifts">Gifts</a><a href="#reviews">Reviews</a>
@@ -87,13 +95,47 @@
         ><button
           id="menu"
           aria-expanded="false"
-          aria-controls="nav"
+          aria-controls="menu-panel"
           aria-label="Open menu"
         >
           <span></span><span></span>
         </button>
       </div>
     </header>
+    <div class="menu-panel" id="menu-panel" hidden>
+      <nav aria-label="Menu">
+        <ul class="menu-links">
+          <li>
+            <a href="#cafes"
+              ><span class="line"><span>Our cafés</span></span></a
+            >
+          </li>
+          <li>
+            <a href="#coffee"
+              ><span class="line"><span>Coffee</span></span></a
+            >
+          </li>
+          <li>
+            <a href="#gifts"
+              ><span class="line"><span>Gifts</span></span></a
+            >
+          </li>
+          <li>
+            <a href="#reviews"
+              ><span class="line"><span>Reviews</span></span></a
+            >
+          </li>
+        </ul>
+      </nav>
+      <!-- @menu-cafes -->
+      <a
+        class="menu-instagram"
+        href="https://www.instagram.com/happysheepdublin/"
+        target="_blank"
+        rel="noopener"
+        >Instagram ↗</a
+      >
+    </div>
     <main id="main">
       <section id="home" class="hero">
         <div class="hero-copy">
@@ -114,44 +156,48 @@
           </div>
         </div>
         <div class="hero-photo">
-          <picture>
-            <source
-              type="image/avif"
-              srcset="
-                /assets/img/coffee-brownie-480.avif 480w,
-                /assets/img/coffee-brownie-800.avif 800w,
-                /assets/img/coffee-brownie-902.avif 902w
-              "
-              sizes="(max-width: 760px) max(calc(100vw - 2.5rem), 440px), min(902px, max(49vw, 820px))"
-            />
-            <source
-              type="image/webp"
-              srcset="
-                /assets/img/coffee-brownie-480.webp 480w,
-                /assets/img/coffee-brownie-800.webp 800w,
-                /assets/img/coffee-brownie-902.webp 902w
-              "
-              sizes="(max-width: 760px) max(calc(100vw - 2.5rem), 440px), min(902px, max(49vw, 820px))"
-            />
-            <img
-              src="/assets/img/coffee-brownie-902.webp"
-              alt="A bag of Happy Sheep Original Blend beside a coffee in a green mug, with a heart in the foam, and a chocolate brownie"
-              width="902"
-              height="895"
-              fetchpriority="high"
-              decoding="async"
-            />
-          </picture>
-          <div class="photo-label">
-            Our Original Blend, with a brownie on the side.
+          <div class="hero-photo-frame">
+            <picture>
+              <source
+                type="image/avif"
+                srcset="
+                  /assets/img/coffee-brownie-480.avif 480w,
+                  /assets/img/coffee-brownie-800.avif 800w,
+                  /assets/img/coffee-brownie-902.avif 902w
+                "
+                sizes="(max-width: 760px) max(calc(100vw - 2.5rem), 440px), min(902px, max(49vw, 820px))"
+              />
+              <source
+                type="image/webp"
+                srcset="
+                  /assets/img/coffee-brownie-480.webp 480w,
+                  /assets/img/coffee-brownie-800.webp 800w,
+                  /assets/img/coffee-brownie-902.webp 902w
+                "
+                sizes="(max-width: 760px) max(calc(100vw - 2.5rem), 440px), min(902px, max(49vw, 820px))"
+              />
+              <img
+                src="/assets/img/coffee-brownie-902.webp"
+                alt="A bag of Happy Sheep Original Blend beside a coffee in a green mug, with a heart in the foam, and a chocolate brownie"
+                width="902"
+                height="895"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </picture>
+            <div class="photo-label">
+              Our Original Blend, with a brownie on the side.
+            </div>
           </div>
+          <a class="stamp hero-stamp" href="#gifts">
+            <span>A little something</span> <strong>for you.</strong>
+            <span>And someone you love <span aria-hidden="true">↗</span></span>
+          </a>
         </div>
-        <a class="hero-stamp" href="#cafes">
-          <span>Open from</span> <strong>7am</strong>
-          <span>Monday to Friday</span>
-        </a>
         <div class="hero-bottom">
-          <span>Happy Sheep Dublin</span><span>Scroll down ↓</span>
+          <a class="hero-status" href="#cafes" data-hero-status
+            >Find us in Dundrum &amp; Terenure</a
+          ><span>Scroll down ↓</span>
         </div>
       </section>
       <div class="marquee">

@@ -35,6 +35,12 @@ npm run test:media
 
 O teste falha se qualquer foto ou vídeo aparecer na tela maior que o arquivo que o navegador baixou (ficaria esticado e borrado), contando o recorte de `object-fit: cover` e qualquer `scale`. Também confere se os `sizes` fazem a tela retina baixar um arquivo grande o bastante. Rode depois de mexer em layout, `sizes` ou fotos.
 
+Para testar o status ao vivo das lojas ("Open now", "Closed now · back at…"), sem navegador:
+
+```bash
+npm run test:unit
+```
+
 Para formatar o código com Prettier:
 
 ```bash
@@ -61,7 +67,9 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 - `scripts/site.config.mjs`: `SITE_URL`. Troque aqui quando houver domínio próprio; canonical, og:url, JSON-LD, robots.txt, sitemap.xml e llms.txt mudam juntos.
 - `scripts/site-data-plugin.mjs`: plugin do Vite que lê `src/data/` e escreve no HTML as seções #cafes e #faq e o JSON-LD, e gera `robots.txt`, `sitemap.xml` e `llms.txt` no build (no dev, servidos pelo próprio Vite). Por isso esses três arquivos não ficam em `public/`.
 - `style.css`: visual, animações e responsividade.
-- `main.js`: menu mobile, galeria, vídeos, revelação ao rolar, botão "Pause animations" e o status "Open now" dos cafés (sempre no fuso Europe/Dublin; sem JS, o card mostra só a tabela).
+- `main.js`: menu mobile (painel de tela cheia), link ativo do header, galeria, vídeos, revelação ao rolar, botão "Pause animations" e o status ao vivo (hero, cards de #cafes e menu).
+- `src/status.js`: a lógica do status ao vivo, sempre no fuso Europe/Dublin. É a mesma para o navegador, o build e os testes (`tests/status.test.mjs`). Sem JS, a hero mostra "Find us in Dundrum & Terenure" e os cards só a tabela.
+- `scripts/make-logo.mjs`: gera `public/assets/logo-clear*.{webp,png}` (1x e 2x) com fundo transparente a partir de `source-media/logo.jpg`. Só o fundo vira transparente; o rosto da ovelha e o coração continuam creme.
 - `public/assets/img/`: fotos otimizadas, geradas por `npm run media`. Não edite à mão.
 - `public/assets/video/`: vídeo do iced latte da galeria (`iced-latte-pour-hq`, WebM VP9 crf 28 + MP4 H.264 crf 20, sem áudio, 720x1280) e o poster.
 - `public/assets/fonts/`: DM Sans e DM Serif Display (SIL OFL), servidas pelo site para não haver troca de fonte durante o carregamento.
@@ -81,7 +89,7 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 
 ## Pedir ao cliente
 
-Pedir ao cliente os originais do celular (não do Instagram): foto da hero, caneca Peanuts e vídeo do iced latte. Os arquivos atuais vieram de downloads do Instagram (a hero tem 902 px, a Peanuts 716 px, o vídeo 720p comprimido) e por isso têm um tamanho máximo na tela; com os originais, dá para mostrar maior e mais nítido.
+Pedir ao cliente os originais do celular (não do Instagram): foto da hero, caneca Peanuts e vídeo do iced latte. E o logo em vetor (SVG, PDF ou AI): o único arquivo que temos tem 150 px, então a versão 2x é ampliada. Os arquivos atuais vieram de downloads do Instagram (a hero tem 902 px, a Peanuts 716 px, o vídeo 720p comprimido) e por isso têm um tamanho máximo na tela; com os originais, dá para mostrar maior e mais nítido. Pedir também o logo em vetor (SVG, PDF ou AI): o único arquivo que temos tem 150 px, então a versão 2x do logo é ampliada e fica um pouco macia em tela retina.
 
 ## Pasta `source-media`
 

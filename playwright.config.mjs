@@ -4,6 +4,7 @@ import { defineConfig } from "@playwright/test";
 // Primeira vez num computador novo: npx playwright install chromium
 export default defineConfig({
   testDir: "tests",
+  testMatch: "*.spec.mjs",
   reporter: "list",
   timeout: 120_000,
   use: { baseURL: "http://localhost:4321" },

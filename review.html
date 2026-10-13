@@ -33,13 +33,20 @@
   </head>
   <body class="review-page">
     <main class="review-main">
-      <img
-        class="review-logo"
-        src="/assets/logo.webp"
-        width="150"
-        height="150"
-        alt="Happy Sheep Dublin"
-      />
+      <picture>
+        <source
+          type="image/webp"
+          srcset="/assets/logo-clear.webp 1x, /assets/logo-clear@2x.webp 2x"
+        />
+        <img
+          class="review-logo"
+          src="/assets/logo-clear.png"
+          srcset="/assets/logo-clear.png 1x, /assets/logo-clear@2x.png 2x"
+          width="150"
+          height="150"
+          alt="Happy Sheep Dublin"
+        />
+      </picture>
       <h1>Thanks for coming in!</h1>
       <p>Which café were you in?</p>
       <div class="review-choices">

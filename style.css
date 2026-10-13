@@ -148,7 +148,6 @@ h3 {
 }
 .brand img {
   object-fit: contain;
-  mix-blend-mode: multiply;
 }
 .header nav {
   display: flex;
@@ -169,8 +168,95 @@ h3 {
   background: currentColor;
   transition: right 0.3s;
 }
-.header nav a:hover:after {
+.header nav a:hover:after,
+.header nav a.is-active:after {
   right: 0;
+}
+/* Menu mobile: painel de tela cheia abaixo do header. */
+.menu-panel {
+  position: fixed;
+  inset: 80px 0 0;
+  z-index: 29;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 2rem 1.25rem calc(2rem + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: var(--paper);
+}
+.menu-panel[hidden] {
+  display: none;
+}
+/* Trava só o <html>: overflow no <body> o tornaria o contêiner de rolagem e
+   o header sticky deixaria de ficar preso à tela. */
+html.menu-open {
+  overflow: hidden;
+}
+.menu-links {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.menu-links a {
+  display: block;
+  font:
+    400 2.6rem/1.05 "DM Serif Display",
+    Georgia,
+    serif;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.menu-links a.is-active .line > span {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+.menu-links li:nth-child(2) .line > span {
+  animation-delay: 0.06s;
+}
+.menu-links li:nth-child(3) .line > span {
+  animation-delay: 0.12s;
+}
+.menu-links li:nth-child(4) .line > span {
+  animation-delay: 0.18s;
+}
+.menu-cafes {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 1.5rem 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+  font-size: 0.9rem;
+}
+.menu-cafes li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.25rem 1rem;
+}
+.menu-cafes a {
+  grid-row: span 2;
+  font-weight: 600;
+  text-decoration: none;
+}
+.menu-cafes .cafe-status {
+  margin: 0;
+  font-size: 0.8rem;
+}
+.menu-instagram {
+  margin-top: auto;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+@media (min-width: 761px) {
+  .menu-panel {
+    display: none !important;
+  }
 }
 .header-actions {
   display: flex;
@@ -218,6 +304,9 @@ h3 {
   position: relative;
   display: grid;
   grid-template-columns: 1.05fr 1fr;
+  /* A linha não cresce com a foto (que não tem overflow: hidden, por causa
+     do selo). */
+  grid-template-rows: minmax(0, 1fr);
   overflow: hidden;
 }
 .hero-copy {
@@ -285,10 +374,25 @@ h3 {
    tamanho máximo, encostada à direita. */
 .hero-photo {
   position: relative;
-  overflow: hidden;
   justify-self: end;
   width: 100%;
   max-width: 902px;
+}
+/* A moldura corta a foto; o selo fica fora dela para poder sair da foto. */
+.hero-photo-frame {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+/* Faixa escura só embaixo, para a legenda branca ter contraste AA (4.5:1)
+   mesmo sobre o guardanapo branco da foto; com 0.55 ficava em 3.8:1. */
+.hero-photo-frame::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 45%;
+  background: linear-gradient(transparent, rgba(32, 45, 34, 0.68) 70%);
+  pointer-events: none;
 }
 .hero-photo img {
   object-position: 50% 53%;
@@ -296,6 +400,7 @@ h3 {
 }
 .photo-label {
   position: absolute;
+  z-index: 1;
   bottom: 3.5rem;
   right: 2rem;
   color: white;
@@ -303,32 +408,41 @@ h3 {
   letter-spacing: 0.06em;
   text-shadow: 0 2px 5px #000;
 }
+/* Selos amarelos: o da hero (link para Gifts) e o de #cafes ("7am"). */
 .hero-stamp {
   position: absolute;
-  left: max(47%, calc(100% - 962px));
+  left: -60px;
   top: 47%;
   transform: translateX(-50%) rotate(-12deg);
+  z-index: 3;
+  transition: transform 0.4s;
+}
+.stamp {
+  flex-shrink: 0;
   width: 166px;
   height: 166px;
   border-radius: 50%;
   background: var(--yellow);
   color: var(--ink);
-  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   text-decoration: none;
-  transition: transform 0.4s;
   box-shadow: 0 5px 20px #0001;
+}
+.cafes-stamp {
+  margin-right: clamp(0rem, 4vw, 4rem);
+  transform: rotate(-12deg);
 }
 .hero-stamp:hover {
   transform: translateX(-50%) rotate(5deg) scale(1.07);
 }
-.hero-stamp span {
+.stamp span {
   font-size: 0.65rem;
 }
-.hero-stamp strong {
+.stamp strong {
   font:
     italic 2.7rem "DM Serif Display",
     serif;
@@ -342,11 +456,32 @@ h3 {
   padding: 1rem clamp(1.25rem, 5vw, 6.5rem);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.11em;
   z-index: 4;
   background: var(--paper);
+}
+.hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+.hero-status:hover {
+  text-decoration: underline;
+}
+.status-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+}
+[data-open="true"] > .status-dot {
+  background: var(--green);
+  box-shadow: 0 0 0 3px #314b3626;
 }
 .marquee {
   background: var(--green);
@@ -1097,13 +1232,16 @@ footer {
     font-size: 11vw;
   }
   .hero-stamp {
+    left: -40px;
+  }
+  .stamp {
     width: 135px;
     height: 135px;
   }
-  .hero-stamp strong {
+  .stamp strong {
     font-size: 2.2rem;
   }
-  .hero-stamp span {
+  .stamp span {
     font-size: 0.55rem;
   }
   .film-layout {
@@ -1167,26 +1305,15 @@ footer {
   }
   .header nav {
     display: none;
-    position: absolute;
-    top: 80px;
-    left: 0;
-    right: 0;
-    padding: 2rem;
-    background: var(--paper);
-    border-bottom: 1px solid var(--line);
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .header nav.open {
-    display: flex;
   }
   .hero {
     min-height: 0;
     height: auto;
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
   }
   .hero-copy {
-    padding: 3.1rem 1.25rem 2.5rem;
+    padding: 3.1rem 1.25rem 3.6rem;
   }
   .hero .eyebrow {
     font-size: 0.65rem;
@@ -1226,13 +1353,26 @@ footer {
     bottom: 1.5rem;
     right: 1rem;
   }
+  /* Selo sobre o canto superior direito da foto, metade para fora (acima),
+     sem passar da margem lateral. */
   .hero-stamp {
     left: auto;
-    right: 1.1rem;
-    top: 290px;
+    right: -0.6rem;
+    top: -55px;
     transform: rotate(10deg);
-    width: 125px;
-    height: 125px;
+  }
+  .stamp {
+    width: 110px;
+    height: 110px;
+  }
+  .stamp strong {
+    font-size: 1.8rem;
+  }
+  .stamp span {
+    font-size: 0.5rem;
+  }
+  .cafes-stamp {
+    margin: 1.5rem 0 0 auto;
   }
   .hero-stamp:hover {
     transform: rotate(0deg);
@@ -1352,18 +1492,7 @@ footer {
     width: 62px;
     height: 62px;
   }
-  .hero-stamp {
-    width: 107px;
-    height: 107px;
-    right: 0.7rem;
-    top: 285px;
-  }
-  .hero-stamp strong {
-    font-size: 1.9rem;
-  }
-  .hero-stamp span {
-    font-size: 0.49rem;
-  }
+
   .hero-photo {
     height: 365px;
   }
@@ -1408,7 +1537,6 @@ footer {
   width: 120px;
   height: 120px;
   margin: 0 auto 1.5rem;
-  mix-blend-mode: multiply;
 }
 .review-main h1 {
   font-size: clamp(2.6rem, 11vw, 3.6rem);
