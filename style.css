@@ -213,6 +213,7 @@ h3 {
   animation-delay: 0.15s;
 }
 .hero-description {
+  max-width: min(430px, 34vw);
   font-size: 1.15rem;
   margin-top: 1.2rem;
   line-height: 1.5;
@@ -234,8 +235,18 @@ h3 {
 .text-link:hover span {
   transform: translate(4px, -3px);
 }
-.hero .text-link {
-  margin-top: 1.6rem;
+.hero-actions,
+.hello-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2rem 2.2rem;
+}
+.hero-actions {
+  margin-top: 1.8rem;
+}
+.hello-actions {
+  justify-content: center;
 }
 .hero-photo {
   position: relative;
@@ -722,6 +733,12 @@ footer {
     align-items: start;
   }
 }
+@media (min-width: 761px) and (max-width: 1150px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 @media (max-width: 760px) {
   html {
     scroll-padding-top: 80px;
@@ -810,8 +827,8 @@ footer {
   .br {
     display: inline;
   }
-  .hero .text-link {
-    margin-top: 1rem;
+  .hero-actions {
+    margin-top: 1.4rem;
   }
   .hero-photo {
     height: 430px;
