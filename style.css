@@ -58,8 +58,6 @@ button {
 button:focus-visible,
 a:focus-visible,
 summary:focus-visible,
-video:focus-visible,
-.film-wrap:has(video:focus-within),
 [tabindex]:focus-visible {
   outline: 3px solid var(--red);
   outline-offset: 5px;
@@ -283,13 +281,17 @@ h3 {
 .hello-actions {
   justify-content: center;
 }
+/* Nunca maior que o arquivo (902px): em telas largas a foto para no
+   tamanho máximo, encostada à direita. */
 .hero-photo {
   position: relative;
   overflow: hidden;
+  justify-self: end;
+  width: 100%;
+  max-width: 902px;
 }
 .hero-photo img {
   object-position: 50% 53%;
-  transform: scale(1.05);
   animation: photo-in 1.5s ease both;
 }
 .photo-label {
@@ -303,7 +305,7 @@ h3 {
 }
 .hero-stamp {
   position: absolute;
-  left: 47%;
+  left: max(47%, calc(100% - 962px));
   top: 47%;
   transform: translateX(-50%) rotate(-12deg);
   width: 166px;
@@ -415,16 +417,13 @@ h3 {
 .coffee-visual {
   position: sticky;
   top: 130px;
+  max-width: 697px;
 }
-.coffee-visual video {
-  display: block;
-  width: 100%;
+.coffee-visual img {
   height: 640px;
   max-height: 75vh;
   border-radius: 160px 160px 0 0;
-  object-fit: cover;
-  object-position: center 60%;
-  background: #d9d6c4;
+  object-position: center;
 }
 .coffee-visual figcaption {
   display: flex;
@@ -473,13 +472,15 @@ h3 {
 }
 .gift-photo {
   position: relative;
+  width: 100%;
+  max-width: 744px;
   transform: rotate(-3deg);
   padding: 14px;
   background: var(--paper);
   color: var(--ink);
 }
 .gift-photo img {
-  aspect-ratio: 0.84;
+  aspect-ratio: 716 / 849;
   object-position: 50% 45%;
 }
 .gift-layout-reverse {
@@ -545,7 +546,7 @@ h3 {
 }
 .film-start {
   position: absolute;
-  bottom: 4.5rem;
+  bottom: 2.5rem;
   left: 50%;
   transform: translateX(-50%);
   border: 0;
@@ -560,8 +561,26 @@ h3 {
 .film-start span {
   margin-right: 0.8rem;
 }
-.film-start[hidden] {
+.film-start[hidden],
+.film-toggle[hidden] {
   display: none;
+}
+.film-toggle {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1rem;
+  box-shadow: 0 5px 20px #0004;
+  transition: background 0.2s;
+}
+.film-toggle:hover {
+  background: var(--yellow);
 }
 .section-quote {
   max-width: 420px;
@@ -911,6 +930,13 @@ h3 {
   overflow: hidden;
   aspect-ratio: var(--ar);
 }
+.gallery-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #d9d6c4;
+}
 .gallery img {
   transition: transform 0.7s;
 }
@@ -1032,14 +1058,16 @@ footer {
     transform: translateY(0);
   }
 }
+/* Só clip-path e scale (terminando em 1): o transform fica livre para o
+   translateY do scroll, e a foto nunca fica ampliada além do arquivo. */
 @keyframes photo-in {
   from {
     clip-path: inset(0 0 100% 0);
-    transform: scale(1.15);
+    scale: 1.06;
   }
   to {
     clip-path: inset(0);
-    transform: scale(1.05);
+    scale: 1;
   }
 }
 @keyframes marquee {
@@ -1047,8 +1075,11 @@ footer {
     transform: translateX(-50%);
   }
 }
-@media (min-width: 1000px) {
+/* Folga de 40px acima da foto para o translateY do scroll (main.js). */
+@media (min-width: 1001px) {
   .hero-photo img {
+    height: calc(100% + 40px);
+    margin-top: -40px;
     will-change: transform;
   }
 }
@@ -1183,6 +1214,8 @@ footer {
     margin-top: 1.4rem;
   }
   .hero-photo {
+    justify-self: stretch;
+    width: auto;
     height: 430px;
     margin: 0 1.25rem 3rem;
   }
@@ -1244,7 +1277,7 @@ footer {
     position: relative;
     top: auto;
   }
-  .coffee-visual video {
+  .coffee-visual img {
     height: 520px;
     max-height: 70vh;
     border-radius: 120px 120px 0 0;

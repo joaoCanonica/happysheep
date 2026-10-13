@@ -5,6 +5,7 @@ let paused = reduce.matches;
 const motion = document.querySelector("#motion");
 const video = document.querySelector("#gift-video");
 const play = document.querySelector("#film-start");
+const toggle = document.querySelector("#film-toggle");
 const pour = document.querySelector("#pour-video");
 let pourVisible = false;
 function updatePour() {
@@ -75,18 +76,31 @@ const reveal = new IntersectionObserver(
   { threshold: 0.1 },
 );
 document.querySelectorAll(".reveal").forEach((e) => reveal.observe(e));
+// Vídeo Good Vibes sem controles nativos: o botão "Take a closer look" dá o
+// play e vira um botão redondo de pausa/play no canto.
 play.addEventListener("click", async () => {
   try {
     await video.play();
-    play.hidden = true;
+    toggle.focus();
   } catch {
-    play.textContent = "Tap the video controls to play";
+    // Se o navegador recusar o play, o botão continua lá.
   }
 });
-video.addEventListener("play", () => (play.hidden = true));
-video.addEventListener("pause", () => {
-  if (video.currentTime === 0) play.hidden = false;
+toggle.addEventListener("click", () => {
+  if (video.paused) video.play().catch(() => {});
+  else video.pause();
 });
+function updateToggle() {
+  const playing = !video.paused;
+  toggle.setAttribute("aria-label", playing ? "Pause video" : "Play video");
+  toggle.firstElementChild.textContent = playing ? "Ⅱ" : "▶";
+}
+video.addEventListener("play", () => {
+  play.hidden = true;
+  toggle.hidden = false;
+  updateToggle();
+});
+video.addEventListener("pause", updateToggle);
 const filmObserver = new IntersectionObserver(
   (entries) => {
     if (!entries[0].isIntersecting) video.pause();
@@ -150,9 +164,10 @@ let ticking = false;
 function scrollEffect() {
   if (!ticking) {
     requestAnimationFrame(() => {
+      // Só translateY (máx. 40px, a folga do CSS), sem ampliar a foto.
       if (!paused && window.innerWidth > 1000 && scrollY < 900)
         document.querySelector(".hero-photo img").style.transform =
-          `translateY(${Math.min(scrollY * 0.1, 70)}px) scale(1.15)`;
+          `translateY(${Math.min(scrollY * 0.1, 40)}px)`;
       ticking = false;
     });
     ticking = true;

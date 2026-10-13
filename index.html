@@ -61,7 +61,7 @@
       as="image"
       type="image/avif"
       imagesrcset="/assets/img/coffee-brownie-480.avif 480w, /assets/img/coffee-brownie-800.avif 800w, /assets/img/coffee-brownie-902.avif 902w"
-      imagesizes="(max-width: 760px) calc(100vw - 2.5rem), max(50vw, 680px)"
+      imagesizes="(max-width: 760px) max(calc(100vw - 2.5rem), 440px), min(902px, max(49vw, 820px))"
       fetchpriority="high"
     />
     <link rel="stylesheet" href="/style.css" />
@@ -122,7 +122,7 @@
                 /assets/img/coffee-brownie-800.avif 800w,
                 /assets/img/coffee-brownie-902.avif 902w
               "
-              sizes="(max-width: 760px) calc(100vw - 2.5rem), max(50vw, 680px)"
+              sizes="(max-width: 760px) max(calc(100vw - 2.5rem), 440px), min(902px, max(49vw, 820px))"
             />
             <source
               type="image/webp"
@@ -131,10 +131,10 @@
                 /assets/img/coffee-brownie-800.webp 800w,
                 /assets/img/coffee-brownie-902.webp 902w
               "
-              sizes="(max-width: 760px) calc(100vw - 2.5rem), max(50vw, 680px)"
+              sizes="(max-width: 760px) max(calc(100vw - 2.5rem), 440px), min(902px, max(49vw, 820px))"
             />
             <img
-              src="/assets/img/coffee-brownie-800.webp"
+              src="/assets/img/coffee-brownie-902.webp"
               alt="A bag of Happy Sheep Original Blend beside a coffee in a green mug, with a heart in the foam, and a chocolate brownie"
               width="902"
               height="895"
@@ -195,29 +195,35 @@
         </div>
         <div class="coffee-grid">
           <figure class="coffee-visual reveal">
-            <video
-              id="pour-video"
-              muted
-              playsinline
-              loop
-              preload="none"
-              width="720"
-              height="1280"
-              poster="/assets/video/iced-latte-pour-poster.webp"
-              aria-label="Iced latte being poured at the counter, with bags of Happy Sheep Original Blend behind"
-            >
+            <picture>
               <source
-                src="/assets/video/iced-latte-pour.webm"
-                type="video/webm"
+                type="image/avif"
+                srcset="
+                  /assets/img/espresso-480.avif 480w,
+                  /assets/img/espresso-697.avif 697w
+                "
+                sizes="(max-width: 760px) calc(100vw - 2.5rem), min(697px, 45vw)"
               />
               <source
-                src="/assets/video/iced-latte-pour.mp4"
-                type="video/mp4"
+                type="image/webp"
+                srcset="
+                  /assets/img/espresso-480.webp 480w,
+                  /assets/img/espresso-697.webp 697w
+                "
+                sizes="(max-width: 760px) calc(100vw - 2.5rem), min(697px, 45vw)"
               />
-            </video>
+              <img
+                src="/assets/img/espresso-697.webp"
+                alt="Two shots of espresso pouring from the machine into plastic cups of milk and ice"
+                width="697"
+                height="906"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
             <figcaption>
-              <span>Iced latte, poured at the counter.</span
-              ><span>Iced latte</span>
+              <span>Hot days, cold coffee.</span
+              ><span>Iced latte, double shot</span>
             </figcaption>
           </figure>
           <div class="coffee-story">
@@ -241,7 +247,7 @@
                     /assets/img/brookie-counter-800.avif   800w,
                     /assets/img/brookie-counter-1152.avif 1152w
                   "
-                  sizes="(max-width: 760px) calc(100vw - 5rem), 40vw"
+                  sizes="(max-width: 760px) calc(100vw - 5rem), calc(41vw - 4rem)"
                 />
                 <source
                   type="image/webp"
@@ -250,7 +256,7 @@
                     /assets/img/brookie-counter-800.webp   800w,
                     /assets/img/brookie-counter-1152.webp 1152w
                   "
-                  sizes="(max-width: 760px) calc(100vw - 5rem), 40vw"
+                  sizes="(max-width: 760px) calc(100vw - 5rem), calc(41vw - 4rem)"
                 />
                 <img
                   src="/assets/img/brookie-counter-800.webp"
@@ -290,7 +296,7 @@
                   /assets/img/peanuts-480.avif 480w,
                   /assets/img/peanuts-716.avif 716w
                 "
-                sizes="(max-width: 760px) calc(100vw - 4.5rem), 42vw"
+                sizes="(max-width: 760px) calc(100vw - 4.5rem - 28px), min(716px, calc(41vw - 28px))"
               />
               <source
                 type="image/webp"
@@ -298,7 +304,7 @@
                   /assets/img/peanuts-480.webp 480w,
                   /assets/img/peanuts-716.webp 716w
                 "
-                sizes="(max-width: 760px) calc(100vw - 4.5rem), 42vw"
+                sizes="(max-width: 760px) calc(100vw - 4.5rem - 28px), min(716px, calc(41vw - 28px))"
               />
               <img
                 src="/assets/img/peanuts-716.webp"
@@ -350,7 +356,7 @@
                   /assets/img/cup-in-hand-800.avif   800w,
                   /assets/img/cup-in-hand-1200.avif 1200w
                 "
-                sizes="(max-width: 760px) calc(100vw - 4.5rem), 42vw"
+                sizes="(max-width: 760px) calc(1.19 * (100vw - 4.5rem - 28px)), min(850px, calc(49vw - 33px))"
               />
               <source
                 type="image/webp"
@@ -359,7 +365,7 @@
                   /assets/img/cup-in-hand-800.webp   800w,
                   /assets/img/cup-in-hand-1200.webp 1200w
                 "
-                sizes="(max-width: 760px) calc(100vw - 4.5rem), 42vw"
+                sizes="(max-width: 760px) calc(1.19 * (100vw - 4.5rem - 28px)), min(850px, calc(49vw - 33px))"
               />
               <img
                 src="/assets/img/cup-in-hand-800.webp"
@@ -389,19 +395,26 @@
               muted
               playsinline
               loop
-              controls
               preload="none"
-              poster="/assets/good-vibes-poster.webp"
+              width="720"
+              height="1280"
+              poster="/assets/good-vibes-poster-720.webp"
               aria-label="Video of Snoopy rainbow mugs and Good Vibes mugs stacked in their boxes"
             >
               <source src="/assets/good-vibes.webm" type="video/webm" />
-              <source src="/assets/good-vibes.mp4" type="video/mp4" /></video
-            ><button
-              class="film-start"
-              id="film-start"
-              aria-label="Play the gift collection video"
+              <source src="/assets/good-vibes.mp4" type="video/mp4" />
+            </video>
+            <button class="film-start" id="film-start" type="button">
+              <span aria-hidden="true">▶</span> Take a closer look
+            </button>
+            <button
+              class="film-toggle"
+              id="film-toggle"
+              type="button"
+              aria-label="Pause video"
+              hidden
             >
-              <span>▶</span> Take a closer look
+              <span aria-hidden="true">Ⅱ</span>
             </button>
           </div>
         </div>
@@ -434,7 +447,7 @@
                     /assets/img/lunch-outside-480.avif 480w,
                     /assets/img/lunch-outside-680.avif 680w
                   "
-                  sizes="(max-width: 760px) 85vw, 34vw"
+                  sizes="(max-width: 760px) min(493px, 85vw), (max-width: 1000px) 480px, 533px"
                 />
                 <source
                   type="image/webp"
@@ -442,7 +455,7 @@
                     /assets/img/lunch-outside-480.webp 480w,
                     /assets/img/lunch-outside-680.webp 680w
                   "
-                  sizes="(max-width: 760px) 85vw, 34vw"
+                  sizes="(max-width: 760px) min(493px, 85vw), (max-width: 1000px) 480px, 533px"
                 />
                 <img
                   src="/assets/img/lunch-outside-680.webp"
@@ -467,7 +480,7 @@
                     /assets/img/iced-latte-480.avif 480w,
                     /assets/img/iced-latte-640.avif 640w
                   "
-                  sizes="(max-width: 760px) 85vw, 34vw"
+                  sizes="(max-width: 760px) min(275px, 85vw), (max-width: 1000px) 268px, 298px"
                 />
                 <source
                   type="image/webp"
@@ -475,7 +488,7 @@
                     /assets/img/iced-latte-480.webp 480w,
                     /assets/img/iced-latte-640.webp 640w
                   "
-                  sizes="(max-width: 760px) 85vw, 34vw"
+                  sizes="(max-width: 760px) min(275px, 85vw), (max-width: 1000px) 268px, 298px"
                 />
                 <img
                   src="/assets/img/iced-latte-640.webp"
@@ -491,6 +504,31 @@
               Iced latte and the tote. Very Dublin in July.
             </figcaption>
           </figure>
+          <figure class="gallery-video" style="--ar: 9 / 16; --max-w: 360px">
+            <div>
+              <video
+                id="pour-video"
+                muted
+                playsinline
+                loop
+                preload="none"
+                width="720"
+                height="1280"
+                poster="/assets/video/iced-latte-pour-hq-poster.webp"
+                aria-label="Iced latte being poured at the counter, with bags of Happy Sheep Original Blend behind"
+              >
+                <source
+                  src="/assets/video/iced-latte-pour-hq.webm"
+                  type="video/webm"
+                />
+                <source
+                  src="/assets/video/iced-latte-pour-hq.mp4"
+                  type="video/mp4"
+                />
+              </video>
+            </div>
+            <figcaption>Iced latte, poured at the counter.</figcaption>
+          </figure>
           <figure style="--ar: 1024 / 1174">
             <div>
               <picture>
@@ -501,7 +539,7 @@
                     /assets/img/brookies-tray-800.avif   800w,
                     /assets/img/brookies-tray-1024.avif 1024w
                   "
-                  sizes="(max-width: 760px) 85vw, 34vw"
+                  sizes="(max-width: 760px) min(323px, 85vw), (max-width: 1000px) 314px, 349px"
                 />
                 <source
                   type="image/webp"
@@ -510,7 +548,7 @@
                     /assets/img/brookies-tray-800.webp   800w,
                     /assets/img/brookies-tray-1024.webp 1024w
                   "
-                  sizes="(max-width: 760px) 85vw, 34vw"
+                  sizes="(max-width: 760px) min(323px, 85vw), (max-width: 1000px) 314px, 349px"
                 />
                 <img
                   src="/assets/img/brookies-tray-800.webp"
@@ -534,7 +572,7 @@
                     /assets/img/tote-window-800.avif   800w,
                     /assets/img/tote-window-1200.avif 1200w
                   "
-                  sizes="(max-width: 760px) 85vw, 34vw"
+                  sizes="(max-width: 760px) min(278px, 85vw), (max-width: 1000px) 270px, 300px"
                 />
                 <source
                   type="image/webp"
@@ -543,7 +581,7 @@
                     /assets/img/tote-window-800.webp   800w,
                     /assets/img/tote-window-1200.webp 1200w
                   "
-                  sizes="(max-width: 760px) 85vw, 34vw"
+                  sizes="(max-width: 760px) min(278px, 85vw), (max-width: 1000px) 270px, 300px"
                 />
                 <img
                   src="/assets/img/tote-window-800.webp"
@@ -559,49 +597,18 @@
               Tote bags hanging in the window in Terenure.
             </figcaption>
           </figure>
-          <figure style="--ar: 697 / 906">
-            <div>
-              <picture>
-                <source
-                  type="image/avif"
-                  srcset="
-                    /assets/img/espresso-480.avif 480w,
-                    /assets/img/espresso-697.avif 697w
-                  "
-                  sizes="(max-width: 760px) 85vw, 34vw"
-                />
-                <source
-                  type="image/webp"
-                  srcset="
-                    /assets/img/espresso-480.webp 480w,
-                    /assets/img/espresso-697.webp 697w
-                  "
-                  sizes="(max-width: 760px) 85vw, 34vw"
-                />
-                <img
-                  src="/assets/img/espresso-697.webp"
-                  alt="Two shots of espresso pouring from the machine into plastic cups of milk and ice"
-                  width="697"
-                  height="906"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </picture>
-            </div>
-            <figcaption>Two iced lattes, double shot.</figcaption>
-          </figure>
           <figure style="--ar: 382 / 510; --max-w: 382px">
             <div>
               <picture>
                 <source
                   type="image/avif"
                   srcset="/assets/img/takeaway-window-382.avif 382w"
-                  sizes="382px"
+                  sizes="(max-width: 760px) min(277px, 85vw), (max-width: 1000px) 270px, 300px"
                 />
                 <source
                   type="image/webp"
                   srcset="/assets/img/takeaway-window-382.webp 382w"
-                  sizes="382px"
+                  sizes="(max-width: 760px) min(277px, 85vw), (max-width: 1000px) 270px, 300px"
                 />
                 <img
                   src="/assets/img/takeaway-window-382.webp"

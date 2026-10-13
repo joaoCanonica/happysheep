@@ -7,9 +7,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "format": "prettier --write index.html style.css main.js",
-    "media": "node scripts/optimize-media.mjs"
+    "media": "node scripts/optimize-media.mjs",
+    "test:media": "playwright test tests/media-sharpness.spec.mjs"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "prettier": "^3.9.10",
     "qrcode": "^1.5.4",
     "sharp": "^0.35.5",

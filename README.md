@@ -26,6 +26,15 @@ npm run media
 
 O script `scripts/optimize-media.mjs` lê os originais de `source-media/photos/`, nunca amplia além da largura original e grava em `public/assets/img/`; largura, altura e larguras geradas ficam em `src/data/images.json`. Para trocar uma foto, coloque o original em `source-media/photos/` com um nome novo (por causa do cache, veja abaixo), atualize a lista `PHOTOS` do script, rode `npm run media` e use no HTML o width/height de `src/data/images.json`.
 
+Para conferir a nitidez das fotos e vídeos (Playwright, em 390, 1440 e 1920 px, e em tela retina):
+
+```bash
+npx playwright install chromium   # só na primeira vez
+npm run test:media
+```
+
+O teste falha se qualquer foto ou vídeo aparecer na tela maior que o arquivo que o navegador baixou (ficaria esticado e borrado), contando o recorte de `object-fit: cover` e qualquer `scale`. Também confere se os `sizes` fazem a tela retina baixar um arquivo grande o bastante. Rode depois de mexer em layout, `sizes` ou fotos.
+
 Para formatar o código com Prettier:
 
 ```bash
@@ -54,9 +63,9 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 - `style.css`: visual, animações e responsividade.
 - `main.js`: menu mobile, galeria, vídeos, revelação ao rolar, botão "Pause animations" e o status "Open now" dos cafés (sempre no fuso Europe/Dublin; sem JS, o card mostra só a tabela).
 - `public/assets/img/`: fotos otimizadas, geradas por `npm run media`. Não edite à mão.
-- `public/assets/video/`: vídeo do iced latte (WebM + MP4, sem áudio, 720 px) e o poster.
+- `public/assets/video/`: vídeo do iced latte da galeria (`iced-latte-pour-hq`, WebM VP9 crf 28 + MP4 H.264 crf 20, sem áudio, 720x1280) e o poster.
 - `public/assets/fonts/`: DM Sans e DM Serif Display (SIL OFL), servidas pelo site para não haver troca de fonte durante o carregamento.
-- `public/assets/`: logo e o vídeo Good Vibes. Tudo o que está em `public` vai para o deploy.
+- `public/assets/`: logo, o vídeo Good Vibes e o poster dele (720 px). Tudo o que está em `public` vai para o deploy.
 - `public/`: favicons (`favicon.svg` vetorizado da ovelha do logo, PNGs 32/48, `apple-touch-icon.png`, ícones 192/512), `site.webmanifest` e `og.jpg` (1200x630, imagem de compartilhamento).
 - `scripts/optimize-media.mjs`: pipeline de imagens com sharp.
 - `source-media/`: material guardado fora do site. Fica fora de `public`, então não vai para o deploy. Veja abaixo.
@@ -69,6 +78,10 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 ## Cache
 
 `vercel.json` manda `/assets/*` com cache de um ano (`immutable`). Os arquivos do Vite têm hash no nome, mas fotos, vídeos e fontes não. **Para trocar uma foto ou vídeo, use um nome de arquivo novo**, ou quem já visitou o site continua vendo a versão antiga.
+
+## Pedir ao cliente
+
+Pedir ao cliente os originais do celular (não do Instagram): foto da hero, caneca Peanuts e vídeo do iced latte. Os arquivos atuais vieram de downloads do Instagram (a hero tem 902 px, a Peanuts 716 px, o vídeo 720p comprimido) e por isso têm um tamanho máximo na tela; com os originais, dá para mostrar maior e mais nítido.
 
 ## Pasta `source-media`
 
