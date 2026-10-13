@@ -17,8 +17,36 @@
       property="og:description"
       content="Independent coffee shop with two cafés in Dublin, Dundrum Business Park (D14) and Terenure Road North (D6W). Coffee, homemade bakes, lunch and gifts. Open Monday to Saturday, from 7am on weekdays."
     />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/dm-sans-latin.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/dm-serif-display-latin.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/dm-serif-display-italic-latin.woff2"
+      crossorigin
+    />
     <link rel="icon" href="/assets/logo.jpg" />
-    <link rel="preload" as="image" href="/assets/coffee-brownie.webp" />
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      imagesrcset="/assets/img/coffee-brownie-480.avif 480w, /assets/img/coffee-brownie-800.avif 800w, /assets/img/coffee-brownie-902.avif 902w"
+      imagesizes="(max-width: 760px) calc(100vw - 2.5rem), 50vw"
+      fetchpriority="high"
+    />
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
@@ -27,6 +55,7 @@
       <a class="brand" href="#home" aria-label="Happy Sheep Dublin home"
         ><img
           src="/assets/logo.webp"
+          decoding="async"
           width="150"
           height="150"
           alt="Happy Sheep Dublin"
@@ -67,13 +96,34 @@
           </div>
         </div>
         <div class="hero-photo">
-          <img
-            src="/assets/coffee-brownie.webp"
-            alt="A bag of Happy Sheep Original Blend beside a coffee in a green mug, with a heart in the foam, and a chocolate brownie"
-            width="902"
-            height="895"
-            fetchpriority="high"
-          />
+          <picture>
+            <source
+              type="image/avif"
+              srcset="
+                /assets/img/coffee-brownie-480.avif 480w,
+                /assets/img/coffee-brownie-800.avif 800w,
+                /assets/img/coffee-brownie-902.avif 902w
+              "
+              sizes="(max-width: 760px) calc(100vw - 2.5rem), 50vw"
+            />
+            <source
+              type="image/webp"
+              srcset="
+                /assets/img/coffee-brownie-480.webp 480w,
+                /assets/img/coffee-brownie-800.webp 800w,
+                /assets/img/coffee-brownie-902.webp 902w
+              "
+              sizes="(max-width: 760px) calc(100vw - 2.5rem), 50vw"
+            />
+            <img
+              src="/assets/img/coffee-brownie-800.webp"
+              alt="A bag of Happy Sheep Original Blend beside a coffee in a green mug, with a heart in the foam, and a chocolate brownie"
+              width="902"
+              height="895"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
           <div class="photo-label">
             Our Original Blend, with a brownie on the side.
           </div>
@@ -127,15 +177,29 @@
         </div>
         <div class="coffee-grid">
           <figure class="coffee-visual reveal">
-            <img
-              src="/assets/espresso.webp"
-              alt="Two shots of espresso pouring from the machine into plastic cups of milk and ice"
-              width="697"
-              height="906"
-              loading="lazy"
-            />
+            <video
+              id="pour-video"
+              muted
+              playsinline
+              loop
+              preload="none"
+              width="720"
+              height="1280"
+              poster="/assets/video/iced-latte-pour-poster.webp"
+              aria-label="Iced latte being poured at the counter, with bags of Happy Sheep Original Blend behind"
+            >
+              <source
+                src="/assets/video/iced-latte-pour.webm"
+                type="video/webm"
+              />
+              <source
+                src="/assets/video/iced-latte-pour.mp4"
+                type="video/mp4"
+              />
+            </video>
             <figcaption>
-              <span>Hot days, cold coffee.</span><span>Iced latte</span>
+              <span>Iced latte, poured at the counter.</span
+              ><span>Iced latte</span>
             </figcaption>
           </figure>
           <div class="coffee-story">
@@ -151,13 +215,34 @@
               </p>
             </div>
             <figure class="brownie reveal">
-              <img
-                src="/assets/coffee-brownie.webp"
-                alt="Close-up of a chocolate brownie next to a coffee in a green mug"
-                width="902"
-                height="895"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset="
+                    /assets/img/brookie-counter-480.avif   480w,
+                    /assets/img/brookie-counter-800.avif   800w,
+                    /assets/img/brookie-counter-1152.avif 1152w
+                  "
+                  sizes="(max-width: 760px) calc(100vw - 5rem), 40vw"
+                />
+                <source
+                  type="image/webp"
+                  srcset="
+                    /assets/img/brookie-counter-480.webp   480w,
+                    /assets/img/brookie-counter-800.webp   800w,
+                    /assets/img/brookie-counter-1152.webp 1152w
+                  "
+                  sizes="(max-width: 760px) calc(100vw - 5rem), 40vw"
+                />
+                <img
+                  src="/assets/img/brookie-counter-800.webp"
+                  alt="Brookies stacked on the counter under a handwritten Brookie sign"
+                  width="1152"
+                  height="1536"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <figcaption>
                 <strong>Brookies, fresh from the oven.</strong>
                 <p>
@@ -180,13 +265,32 @@
         </div>
         <div class="gift-layout">
           <div class="gift-photo reveal">
-            <img
-              src="/assets/peanuts.webp"
-              width="716"
-              height="899"
-              loading="lazy"
-              alt="Official Peanuts mug with Snoopy, Woodstock, Sally and Linus, sitting on its green gift box"
-            /><span class="gift-tag">Meet your new favourite mug</span>
+            <picture>
+              <source
+                type="image/avif"
+                srcset="
+                  /assets/img/peanuts-480.avif 480w,
+                  /assets/img/peanuts-716.avif 716w
+                "
+                sizes="(max-width: 760px) calc(100vw - 4.5rem), 42vw"
+              />
+              <source
+                type="image/webp"
+                srcset="
+                  /assets/img/peanuts-480.webp 480w,
+                  /assets/img/peanuts-716.webp 716w
+                "
+                sizes="(max-width: 760px) calc(100vw - 4.5rem), 42vw"
+              />
+              <img
+                src="/assets/img/peanuts-716.webp"
+                alt="Official Peanuts mug with Snoopy, Woodstock, Sally and Linus, sitting on its green gift box"
+                width="716"
+                height="849"
+                loading="lazy"
+                decoding="async"
+              /> </picture
+            ><span class="gift-tag">Meet your new favourite mug</span>
           </div>
           <div class="gift-copy reveal">
             <p class="eyebrow">Snoopy & friends</p>
@@ -206,6 +310,47 @@
               rel="noopener"
               >Ask us what's in stock <span>↗</span></a
             >
+          </div>
+        </div>
+        <!-- TODO: dono confirma que vende o copo -->
+        <div class="gift-layout gift-layout-reverse">
+          <div class="gift-copy reveal">
+            <p class="eyebrow">Your own cup</p>
+            <h3><span class="br">Keeps it hot</span> <em>on the walk.</em></h3>
+            <p>
+              Our insulated Happy Sheep cups keep a flat white hot all the way
+              to the office. Ask at the counter.
+            </p>
+          </div>
+          <div class="gift-photo gift-photo-alt reveal">
+            <picture>
+              <source
+                type="image/avif"
+                srcset="
+                  /assets/img/cup-in-hand-480.avif   480w,
+                  /assets/img/cup-in-hand-800.avif   800w,
+                  /assets/img/cup-in-hand-1200.avif 1200w
+                "
+                sizes="(max-width: 760px) calc(100vw - 4.5rem), 42vw"
+              />
+              <source
+                type="image/webp"
+                srcset="
+                  /assets/img/cup-in-hand-480.webp   480w,
+                  /assets/img/cup-in-hand-800.webp   800w,
+                  /assets/img/cup-in-hand-1200.webp 1200w
+                "
+                sizes="(max-width: 760px) calc(100vw - 4.5rem), 42vw"
+              />
+              <img
+                src="/assets/img/cup-in-hand-800.webp"
+                alt="A hand holding a white insulated Happy Sheep Dublin cup with a wooden base"
+                width="1440"
+                height="1440"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
           </div>
         </div>
         <div class="film-layout">
@@ -258,41 +403,195 @@
           tabindex="0"
           aria-label="Happy Sheep photo gallery"
         >
-          <figure>
+          <figure style="--ar: 680 / 510">
             <div>
-              <img
-                src="/assets/iced-latte.webp"
-                alt="Iced latte with a paper straw, held in front of a Happy Sheep Dublin tote bag in the sun"
-                width="677"
-                height="900"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset="
+                    /assets/img/lunch-outside-480.avif 480w,
+                    /assets/img/lunch-outside-680.avif 680w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <source
+                  type="image/webp"
+                  srcset="
+                    /assets/img/lunch-outside-480.webp 480w,
+                    /assets/img/lunch-outside-680.webp 680w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <img
+                  src="/assets/img/lunch-outside-680.webp"
+                  alt="Two lunch plates, a latte and a matcha on an outdoor table, with a black toy sheep sitting beside them"
+                  width="680"
+                  height="510"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
-            <figcaption>Sunshine. Iced latte. Dublin.</figcaption>
+            <figcaption>
+              Lunch outside, with the house sheep keeping an eye on things.
+            </figcaption>
           </figure>
-          <figure>
+          <figure style="--ar: 640 / 860">
             <div>
-              <img
-                src="/assets/peanuts.webp"
-                alt="Peanuts mug with Snoopy dancing, on a wooden counter"
-                width="716"
-                height="899"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset="
+                    /assets/img/iced-latte-480.avif 480w,
+                    /assets/img/iced-latte-640.avif 640w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <source
+                  type="image/webp"
+                  srcset="
+                    /assets/img/iced-latte-480.webp 480w,
+                    /assets/img/iced-latte-640.webp 640w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <img
+                  src="/assets/img/iced-latte-640.webp"
+                  alt="Iced latte with a paper straw, held in front of a Happy Sheep Dublin tote bag in the sun"
+                  width="640"
+                  height="860"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
-            <figcaption>Meet your coffee-break companion.</figcaption>
+            <figcaption>
+              Iced latte and the tote. Very Dublin in July.
+            </figcaption>
           </figure>
-          <figure>
+          <figure style="--ar: 1024 / 1174">
             <div>
-              <img
-                src="/assets/coffee-brownie.webp"
-                alt="Bag of Happy Sheep Original Blend, a coffee and a brownie on a wooden table"
-                width="902"
-                height="895"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset="
+                    /assets/img/brookies-tray-480.avif   480w,
+                    /assets/img/brookies-tray-800.avif   800w,
+                    /assets/img/brookies-tray-1024.avif 1024w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <source
+                  type="image/webp"
+                  srcset="
+                    /assets/img/brookies-tray-480.webp   480w,
+                    /assets/img/brookies-tray-800.webp   800w,
+                    /assets/img/brookies-tray-1024.webp 1024w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <img
+                  src="/assets/img/brookies-tray-800.webp"
+                  alt="A tray of brookies, cookie dough baked on top of brownie, with chocolate chips"
+                  width="1024"
+                  height="1174"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
-            <figcaption>Something sweet, just because.</figcaption>
+            <figcaption>A fresh tray of brookies.</figcaption>
+          </figure>
+          <figure style="--ar: 1440 / 1920">
+            <div>
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset="
+                    /assets/img/tote-window-480.avif   480w,
+                    /assets/img/tote-window-800.avif   800w,
+                    /assets/img/tote-window-1200.avif 1200w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <source
+                  type="image/webp"
+                  srcset="
+                    /assets/img/tote-window-480.webp   480w,
+                    /assets/img/tote-window-800.webp   800w,
+                    /assets/img/tote-window-1200.webp 1200w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <img
+                  src="/assets/img/tote-window-800.webp"
+                  alt="Happy Sheep Dublin tote bags hanging in the café window, with Terenure Road outside"
+                  width="1440"
+                  height="1920"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <figcaption>
+              Tote bags hanging in the window in Terenure.
+            </figcaption>
+          </figure>
+          <figure style="--ar: 697 / 906">
+            <div>
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset="
+                    /assets/img/espresso-480.avif 480w,
+                    /assets/img/espresso-697.avif 697w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <source
+                  type="image/webp"
+                  srcset="
+                    /assets/img/espresso-480.webp 480w,
+                    /assets/img/espresso-697.webp 697w
+                  "
+                  sizes="(max-width: 760px) 85vw, 34vw"
+                />
+                <img
+                  src="/assets/img/espresso-697.webp"
+                  alt="Two shots of espresso pouring from the machine into plastic cups of milk and ice"
+                  width="697"
+                  height="906"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <figcaption>Two iced lattes, double shot.</figcaption>
+          </figure>
+          <figure style="--ar: 382 / 510; --max-w: 382px">
+            <div>
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset="/assets/img/takeaway-window-382.avif 382w"
+                  sizes="382px"
+                />
+                <source
+                  type="image/webp"
+                  srcset="/assets/img/takeaway-window-382.webp 382w"
+                  sizes="382px"
+                />
+                <img
+                  src="/assets/img/takeaway-window-382.webp"
+                  alt="A Happy Sheep takeaway cup on a wooden window ledge, looking out on the street"
+                  width="382"
+                  height="510"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <figcaption>Takeaway, with a view of the street.</figcaption>
           </figure>
         </div>
         <div class="gallery-foot">

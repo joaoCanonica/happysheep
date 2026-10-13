@@ -1,0 +1,86 @@
+{
+  "coffee-brownie": {
+    "width": 902,
+    "height": 895,
+    "widths": [
+      480,
+      800,
+      902
+    ]
+  },
+  "espresso": {
+    "width": 697,
+    "height": 906,
+    "widths": [
+      480,
+      697
+    ]
+  },
+  "peanuts": {
+    "width": 716,
+    "height": 849,
+    "widths": [
+      480,
+      716
+    ]
+  },
+  "iced-latte": {
+    "width": 640,
+    "height": 860,
+    "widths": [
+      480,
+      640
+    ]
+  },
+  "brookie-counter": {
+    "width": 1152,
+    "height": 1536,
+    "widths": [
+      480,
+      800,
+      1152
+    ]
+  },
+  "cup-in-hand": {
+    "width": 1440,
+    "height": 1440,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "lunch-outside": {
+    "width": 680,
+    "height": 510,
+    "widths": [
+      480,
+      680
+    ]
+  },
+  "brookies-tray": {
+    "width": 1024,
+    "height": 1174,
+    "widths": [
+      480,
+      800,
+      1024
+    ]
+  },
+  "tote-window": {
+    "width": 1440,
+    "height": 1920,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "takeaway-window": {
+    "width": 382,
+    "height": 510,
+    "widths": [
+      382
+    ]
+  }
+}

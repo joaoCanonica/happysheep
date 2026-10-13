@@ -5,6 +5,15 @@ let paused = reduce.matches;
 const motion = document.querySelector("#motion");
 const video = document.querySelector("#gift-video");
 const play = document.querySelector("#film-start");
+const pour = document.querySelector("#pour-video");
+let pourVisible = false;
+function updatePour() {
+  if (pourVisible && !paused) {
+    pour.play().catch(() => {});
+  } else if (!pour.paused) {
+    pour.pause();
+  }
+}
 function setMotion(value) {
   paused = value;
   root.classList.toggle("paused", paused);
@@ -12,12 +21,27 @@ function setMotion(value) {
   motion.textContent = paused ? "Play animations" : "Pause animations";
   if (paused) {
     video.pause();
+    // Volta ao poster: com animações pausadas só a imagem parada aparece.
+    if (pour.currentTime > 0) pour.load();
     document.querySelector(".hero-photo img").style.transform = "";
   }
 }
 setMotion(paused);
-motion.addEventListener("click", () => setMotion(!paused));
-reduce.addEventListener("change", () => setMotion(reduce.matches));
+new IntersectionObserver(
+  (entries) => {
+    pourVisible = entries[0].isIntersecting;
+    updatePour();
+  },
+  { threshold: 0.25 },
+).observe(pour);
+motion.addEventListener("click", () => {
+  setMotion(!paused);
+  updatePour();
+});
+reduce.addEventListener("change", () => {
+  setMotion(reduce.matches);
+  updatePour();
+});
 const menu = document.querySelector("#menu"),
   nav = document.querySelector("#nav");
 function closeMenu() {
@@ -71,22 +95,28 @@ const filmObserver = new IntersectionObserver(
 );
 filmObserver.observe(video);
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) video.pause();
+  if (document.hidden) {
+    video.pause();
+    pour.pause();
+  } else {
+    updatePour();
+  }
 });
 const gallery = document.querySelector("#gallery"),
   prev = document.querySelector("#gallery-prev"),
   next = document.querySelector("#gallery-next");
-function step() {
-  return (
-    gallery.querySelector("figure").getBoundingClientRect().width +
-    parseFloat(getComputedStyle(gallery).gap)
-  );
-}
+// As fotos têm larguras diferentes: vai até o começo da próxima (ou anterior).
 function move(dir) {
-  gallery.scrollBy({
-    left: step() * dir,
-    behavior: paused ? "instant" : "smooth",
-  });
+  const start = gallery.getBoundingClientRect().left - gallery.scrollLeft;
+  const lefts = [...gallery.children].map(
+    (fig) => fig.getBoundingClientRect().left - start,
+  );
+  const x = gallery.scrollLeft;
+  const target =
+    dir > 0
+      ? (lefts.find((l) => l > x + 5) ?? gallery.scrollWidth)
+      : (lefts.findLast((l) => l < x - 5) ?? 0);
+  gallery.scrollTo({ left: target, behavior: paused ? "instant" : "smooth" });
 }
 prev.addEventListener("click", () => move(-1));
 next.addEventListener("click", () => move(1));

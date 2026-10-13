@@ -1,4 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap");
+/* DM Sans e DM Serif Display (SIL OFL), servidas pelo próprio site. */
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/assets/fonts/dm-sans-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "DM Serif Display";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/dm-serif-display-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "DM Serif Display";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/dm-serif-display-italic-latin.woff2") format("woff2");
+}
 :root {
   --paper: #f5efd9;
   --ink: #202d22;
@@ -39,6 +60,9 @@ a:focus-visible,
 [tabindex]:focus-visible {
   outline: 3px solid var(--red);
   outline-offset: 5px;
+}
+picture {
+  display: contents;
 }
 img {
   display: block;
@@ -381,11 +405,15 @@ h3 {
   position: sticky;
   top: 130px;
 }
-.coffee-visual img {
+.coffee-visual video {
+  display: block;
+  width: 100%;
   height: 640px;
   max-height: 75vh;
   border-radius: 160px 160px 0 0;
-  object-position: center;
+  object-fit: cover;
+  object-position: center 60%;
+  background: #d9d6c4;
 }
 .coffee-visual figcaption {
   display: flex;
@@ -406,8 +434,8 @@ h3 {
   margin: 4rem 0 0 4rem;
 }
 .brownie img {
-  aspect-ratio: 1.07;
-  object-position: 50% 85%;
+  aspect-ratio: 0.9;
+  object-position: 50% 70%;
 }
 .brownie figcaption {
   padding-top: 1.5rem;
@@ -442,6 +470,12 @@ h3 {
 .gift-photo img {
   aspect-ratio: 0.84;
   object-position: 50% 45%;
+}
+.gift-layout-reverse {
+  margin-top: clamp(5rem, 9vw, 9rem);
+}
+.gift-photo-alt {
+  transform: rotate(2.5deg);
 }
 .gift-tag {
   display: block;
@@ -543,7 +577,9 @@ h3 {
   cursor: default;
 }
 .gallery {
+  --gallery-h: 400px;
   display: flex;
+  align-items: flex-start;
   gap: 2rem;
   overflow: auto;
   scroll-snap-type: x mandatory;
@@ -552,8 +588,8 @@ h3 {
   scrollbar-color: var(--green) transparent;
 }
 .gallery figure {
-  flex: 0 0 32%;
-  min-width: 240px;
+  flex: 0 0 auto;
+  width: min(calc(var(--gallery-h) * var(--ar)), var(--max-w, 100vw), 85vw);
   scroll-snap-align: start;
 }
 .gallery figure:nth-child(even) {
@@ -561,20 +597,13 @@ h3 {
 }
 .gallery figure > div {
   overflow: hidden;
-  height: 380px;
+  aspect-ratio: var(--ar);
 }
 .gallery img {
   transition: transform 0.7s;
 }
 .gallery figure:hover img {
   transform: scale(1.04);
-}
-.gallery figure:first-child img {
-  object-position: 40% center;
-  transform: scale(1.09);
-}
-.gallery figure:nth-child(2) img {
-  transform: scale(1.06);
 }
 .gallery figcaption {
   font-size: 0.88rem;
@@ -659,6 +688,9 @@ footer {
 .js .gift-photo.reveal.visible {
   transform: rotate(-3deg);
 }
+.js .gift-photo-alt.reveal.visible {
+  transform: rotate(2.5deg);
+}
 .paused *,
 .paused *:before,
 .paused *:after {
@@ -726,8 +758,8 @@ footer {
   .film-layout {
     gap: 3rem;
   }
-  .gallery figure {
-    flex-basis: 42%;
+  .gallery {
+    --gallery-h: 360px;
   }
   .intro-foot {
     align-items: start;
@@ -891,7 +923,7 @@ footer {
     position: relative;
     top: auto;
   }
-  .coffee-visual img {
+  .coffee-visual video {
     height: 520px;
     max-height: 70vh;
     border-radius: 120px 120px 0 0;
@@ -927,12 +959,8 @@ footer {
   .gallery {
     gap: 1.2rem;
   }
-  .gallery figure {
-    flex-basis: 78%;
-    min-width: 0;
-  }
-  .gallery figure > div {
-    height: 370px;
+  .gallery {
+    --gallery-h: 370px;
   }
   .gallery figure:nth-child(even) {
     padding-top: 1.8rem;
