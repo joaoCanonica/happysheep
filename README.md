@@ -46,6 +46,8 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 
 - `index.html`: conteúdo, seções e `<head>`. Os marcadores `<!-- @cafes -->`, `<!-- @faq -->` e `<!-- @jsonld -->` são preenchidos no build; `%SITE_URL%` vira a URL do site.
 - `src/data/locations.json`: as duas lojas (endereço, Eircode, coordenadas, place_id, horário em 24h, detalhes, links do Google Maps). **Horário e endereço se mudam só aqui.**
+- `src/data/reviews.json`: avaliações do Google, copiadas literalmente dos prints. **Não formatar nem editar** (está no `.prettierignore`). O site usa `ratings` (nota, quantidade, link de avaliar por loja) e `reviews` (`quote`, `name`, `location`, `featured`, `section`). `fullText`, `ownerReply`, `notOnSite` e `factsFromReviews` não vão para o site. Ordem do carrossel: `featured` 1, 2, 3…, depois o resto na ordem do arquivo; quem tem `section` aparece na seção indicada (`gifts`, `cafe-dundrum`, `cafe-terenure`), não no carrossel. As citações em Gifts são escolhidas por id no HTML (`<!-- @quote r18 -->`). Nunca exibir datas, nunca corrigir a ortografia de um quote, nunca usar AggregateRating/Review no JSON-LD.
+- `review.html`: página `/review` do QR code do balcão (noindex, fora do sitemap). Leva direto à tela de avaliar de cada loja, sem pedir nota antes, sem filtrar cliente e sem brinde, como exige a política do Google.
 - `src/data/faq.json`: perguntas e respostas do FAQ. O mesmo texto vai para a página e para o JSON-LD (FAQPage).
 - `scripts/site.config.mjs`: `SITE_URL`. Troque aqui quando houver domínio próprio; canonical, og:url, JSON-LD, robots.txt, sitemap.xml e llms.txt mudam juntos.
 - `scripts/site-data-plugin.mjs`: plugin do Vite que lê `src/data/` e escreve no HTML as seções #cafes e #faq e o JSON-LD, e gera `robots.txt`, `sitemap.xml` e `llms.txt` no build (no dev, servidos pelo próprio Vite). Por isso esses três arquivos não ficam em `public/`.
@@ -59,6 +61,10 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 - `scripts/optimize-media.mjs`: pipeline de imagens com sharp.
 - `source-media/`: material guardado fora do site. Fica fora de `public`, então não vai para o deploy. Veja abaixo.
 - `vite.config.js`, `package.json`, `package-lock.json`, `vercel.json`: configuração.
+
+## QR codes
+
+`public/qr/review-qr.svg` e `public/qr/review-qr.png` (2000 px) apontam para `SITE_URL` + `review`. São gerados no build pelo plugin (pacote `qrcode`), em cor de tinta sobre creme. **São para imprimir e colocar no balcão e nos copos**; o site não linka para eles. Use o SVG na gráfica. Se o `SITE_URL` mudar, rode `npm run build` e reimprima.
 
 ## Cache
 

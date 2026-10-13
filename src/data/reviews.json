@@ -1,0 +1,273 @@
+{
+  "updated": "2026-10-13",
+  "notes": [
+    "Textos copiados literalmente dos prints do Google. 'quote' é o trecho para o site: só cortes marcados com '…', nenhuma palavra trocada.",
+    "location 'unknown' = não dá para saber a loja pelo print; o card mostra só 'Google review', sem tag de loja, até o dono confirmar.",
+    "Não exibir datas. Não usar AggregateRating/Review em JSON-LD (auto-avaliação é ignorada/penalizada pelo Google em negócio local).",
+    "O lote 2 repetiu os mesmos 11 prints do lote 1; não houve avaliações novas."
+  ],
+  "ratings": {
+    "dundrum": {
+      "rating": 4.7,
+      "count": 137,
+      "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJG7q4HFAJZ0gRAWcqjqNRAzY",
+      "checked": "2026-10"
+    },
+    "terenure": {
+      "rating": 4.5,
+      "count": 72,
+      "reviewUrl": "https://search.google.com/local/writereview?placeid=ChIJ-agAd90NZ0gRyaoN1GAQK0I",
+      "checked": "2026-10"
+    }
+  },
+  "reviews": [
+    {
+      "id": "r20",
+      "name": "Alexandra",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "A lovely, small and cosy café with a warm, colourful atmosphere. The staff were incredibly friendly and welcoming, making us feel at home from the moment we walked in.",
+      "fullText": "A lovely, small and cosy café with a warm, colourful atmosphere. The staff were incredibly friendly and welcoming, making us feel at home from the moment we walked in. The coffee was excellent, and the cake was absolutely delicious. I will definitely be coming back and will happily recommend this place to everyone looking for a great coffee and a relaxing atmosphere!",
+      "source": "Google",
+      "lang": "en",
+      "featured": 1
+    },
+    {
+      "id": "r11",
+      "name": "Claire",
+      "location": "dundrum",
+      "rating": 5,
+      "quote": "Lovely little cafe with really friendly staff. I had a coconut flat white, which was excellent. There's a great selection of pastries and sweets to choose from.",
+      "fullText": "Lovely little cafe with really friendly staff. I had a coconut flat white, which was excellent. There's a great selection of pastries and sweets to choose from. Seating is available both indoors (a few single seats) and outside, making it a nice spot to sit and enjoy. Overall, a really pleasant place to visit if you're in the area",
+      "source": "Google",
+      "lang": "en",
+      "featured": 2,
+      "section": "cafe-dundrum"
+    },
+    {
+      "id": "r21",
+      "name": "Lydia O.",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "Lovely flat white. Staff nice. Sat in for a few minutes to enjoy my coffee as it was a cold day. Had my small dog with me & she seemed welcome (there was a dog water bowl inside & dog treats on the counter also, so seems to be dog friendly, which is lovely).",
+      "fullText": "Lovely flat white. Staff nice. Sat in for a few minutes to enjoy my coffee as it was a cold day. Had my small dog with me & she seemed welcome (there was a dog water bowl inside & dog treats on the counter also, so seems to be dog friendly, which is lovely).",
+      "source": "Google",
+      "lang": "en",
+      "featured": 3,
+      "section": "cafe-terenure"
+    },
+    {
+      "id": "r03",
+      "name": "Sam H.",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "A gorgeous wee spot … the people there are warm and welcoming … A treasure to have in the area!",
+      "fullText": "A gorgeous wee spot tucked into the row: The atmosphere is brilliant, the people there are warm and welcoming and the variety of options sweet or savoury are immese!\n\nA treasure to have in the area!",
+      "source": "Google",
+      "lang": "en",
+      "featured": 4
+    },
+    {
+      "id": "r18",
+      "name": "Camila Y.",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "Amazing Iced Mocha. Nice vibe, and they have beautiful Snoopy Mugs for sale 😍",
+      "fullText": "Amazing Iced Mocha. Nice vibe, and they have beautiful Snoopy Mugs for sale 😍",
+      "source": "Google",
+      "lang": "en",
+      "featured": 5,
+      "section": "gifts"
+    },
+    {
+      "id": "r02",
+      "name": "Pedro B.",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "Great coffee and friendly service. We appreciated the cookie treat included. … Calm cosy atmosphere and gift shop. This can become a new regular.",
+      "fullText": "Great coffee and friendly service. We appreciated the cookie treat included. A dog friendly caffe. Calm cosy atmosphere and gift shop. This can become a new regular. Reccomended.",
+      "source": "Google",
+      "lang": "en"
+    },
+    {
+      "id": "r05",
+      "name": "Rachel E.",
+      "location": "unknown",
+      "rating": 5,
+      "quote": "Without a doubt, my favorite is the flat white with oat. … Dublin could definitely use more pet-friendly places like this.",
+      "fullText": "Now that they're open to the public, we can sit down and enjoy our coffee. The atmosphere is incredibly calm and tranquil, and the coffee is simply delicious. Without a doubt, my favorite is the flat white with oat. What I find particularly intriguing is their welcoming attitude towards our furry friends. Dublin could definitely use more pet-friendly places like this. I absolutely adore Black Sheep, and I believe it's definitely worth a visit.",
+      "source": "Google",
+      "lang": "en"
+    },
+    {
+      "id": "r06",
+      "name": "Luccas B.",
+      "location": "unknown",
+      "rating": 5,
+      "quote": "Such a lovely spot with amazing food and coffee. For sure we'll be back for more treats!! Highly recommend it ❤️",
+      "fullText": "Such a lovely spot with amazing food and coffee. For sure we'll be back for more treats!! Highly recommend it ❤️",
+      "source": "Google",
+      "lang": "en"
+    },
+    {
+      "id": "r09",
+      "name": "Ingrid G.",
+      "location": "dundrum",
+      "rating": 5,
+      "quote": "Absolutely the best coffee I've tried in Dublin! Congrats, guys ❤️",
+      "fullText": "Cozy place and a good costumer service. Absolutely the best coffee I've tried in Dublin! Congrats, guys ❤️",
+      "source": "Google",
+      "lang": "en",
+      "ownerReply": "Muito obrigada! Até a próxima! xxx"
+    },
+    {
+      "id": "r10",
+      "name": "Sanghamitra C.",
+      "location": "dundrum",
+      "rating": 5,
+      "quote": "I tried the chicken mayo bagel and it was great. You can find all sorts of coffee and request for your non dairy milk as well. The staff is really kind too.",
+      "fullText": "A very cosy cafe located close to Dundrum business park. This coffee shop has a lot good options and you will find some vegetarian options too. Black sheep has some lunch deals - salads, soup etc. the food is quite tasty, I tried the chicken mayo bagel and it was great. You can find all sorts of coffee and request for your non dairy milk as well. The staff is really kind too. There is very limited seating available - some tables outside and one inside for a max of two people but must try the cafe for its food and coffee!",
+      "source": "Google",
+      "lang": "en"
+    },
+    {
+      "id": "r13",
+      "name": "Manisha C.",
+      "location": "unknown",
+      "rating": 5,
+      "quote": "I go there every morning to get myself a dose of Cappuccino. … You should try their Iced Mocha too! It's delicious 😋",
+      "fullText": "Great vibe of the place with lovely staff and amazing ambience. I go there every morning to get myself a dose of Cappuccino. One reason to wake up happy the next day is to know that I will go back to Black Sheep in the morning to treat myself with their Coffee. You should try their Iced Mocha too! It's delicious 😋",
+      "source": "Google",
+      "lang": "en"
+    },
+    {
+      "id": "r14",
+      "name": "Aaron H.",
+      "location": "unknown",
+      "rating": 5,
+      "quote": "One of my favorite coffee shops in Dublin. Friendly staff, excellent coffee, and a welcoming atmosphere",
+      "fullText": "One of my favorite coffee shops in Dublin. Friendly staff, excellent coffee, and a welcoming atmosphere",
+      "source": "Google",
+      "lang": "en"
+    },
+    {
+      "id": "r16",
+      "name": "Francesco B.",
+      "location": "unknown",
+      "rating": 5,
+      "quote": "Really a lovely place.\n\nBeautiful atmosphere: small, great furniture, a lot of attractive products on display.\n\nFood options are all beautiful and consistently tasty.\n\nStaff is very nice.",
+      "fullText": "Really a lovely place.\n\nBeautiful atmosphere: small, great furniture, a lot of attractive products on display.\n\nFood options are all beautiful and consistently tasty.\n\nStaff is very nice.",
+      "source": "Google",
+      "lang": "en",
+      "section": "gifts"
+    },
+    {
+      "id": "r17",
+      "name": "Calmariagreen",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "If you can't decide between coffee and cake, why not have both? Additionally, they have vegan options!",
+      "fullText": "I love this place. If you are visiting Dublin, don´t miss the opportunity to come to this original and cosy cafe. You can find here the best coffee and amazing pastries. If you can't decide between coffee and cake, why not have both? Additionally, they have vegan options! You´ll love it.",
+      "source": "Google",
+      "lang": "en",
+      "ownerReply": "awwww Thanks a lot For your kind words and great Review We do really Appreciate Thanks for you Visit See you again Big Baa Baa... xxxx"
+    },
+    {
+      "id": "r19",
+      "name": "Helena L.",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "I was just randomly passing this cafe, but the cozy atmosphere caught my attention so I've decided to give it a try. Great choice! It was really cozy, the food, specifically the cookie and Flat white, were amazing. The café also offers cosmetics, which I believe are high quality ones.",
+      "fullText": "I was just randomly passing this cafe, but the cozy atmosphere caught my attention so I've decided to give it a try. Great choice! It was really cozy, the food, specifically the cookie and Flat white, were amazing. The café also offers cosmetics, which I believe are high quality ones.",
+      "source": "Google",
+      "lang": "en"
+    }
+  ],
+  "notOnSite": [
+    {
+      "id": "r01",
+      "name": "Iria",
+      "location": "unknown",
+      "rating": 5,
+      "quote": "The greatest coffee have had in Dublin, the atmosphere is lovely the owner is adorable chatty and very friendly. He has this very fresh treats great value too. Stop there and sit down on one of his sofas.",
+      "fullText": "The greatest coffee have had in Dublin, the atmosphere is lovely the owner is adorable chatty and very friendly. He has this very fresh treats great value too. Stop there and sit down on one of his sofas.",
+      "source": "Google",
+      "lang": "en",
+      "ownerReply": "Big Thanks Iria for your lovely and kind words. We are happy you enjoyed the place and feel the Calm Atmosphere, You are always very Welcome Baa Baa.... xoxo",
+      "reason": "Ótima pelo calor humano (dono conversador, sofás), mas tem erros de gramática; usar só o trecho 'the atmosphere is lovely the owner is adorable chatty and very friendly' com reticências."
+    },
+    {
+      "id": "r04",
+      "name": "Marlon F.",
+      "location": "unknown",
+      "rating": 5,
+      "quote": "The Black Sheep Coffee offers a delightful blend of cozy ambiance, delectable food, and exceptional service. The environment is inviting with its rustic decor and warm lighting, making it perfect for both catching up with friends or enjoying a quiet moment alone. Their food selection is diverse, featuring flavorful options ranging from savory sandwiches to indulgent desserts, all crafted with quality ingredients. The service is attentive and friendly, adding to the overall pleasant experience. The Black Sheep Coffee is a definite must-visit.",
+      "fullText": "The Black Sheep Coffee offers a delightful blend of cozy ambiance, delectable food, and exceptional service. The environment is inviting with its rustic decor and warm lighting, making it perfect for both catching up with friends or enjoying a quiet moment alone. Their food selection is diverse, featuring flavorful options ranging from savory sandwiches to indulgent desserts, all crafted with quality ingredients. The service is attentive and friendly, adding to the overall pleasant experience. The Black Sheep Coffee is a definite must-visit.",
+      "source": "Google",
+      "lang": "en",
+      "reason": "Texto com cara de IA (delightful blend, delectable, crafted, must-visit) e cita 'The Black Sheep Coffee', nome de uma rede concorrente. Iria contra tudo o que o cliente pediu."
+    },
+    {
+      "id": "r07",
+      "name": "Jackson",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "I popped into this little cafe on Saturday with a friend I have to say very I had a sandwich and a coffee lovely check them out",
+      "fullText": "I popped into this little cafe on Saturday with a friend I have to say very I had a sandwich and a coffee lovely check them out",
+      "source": "Google",
+      "lang": "en",
+      "reason": "Texto sem pontuação, não funciona citado. Mas os dados servem para o FAQ: aceita crianças, cadeira de rodas passa mas é apertado, estacionamento pago na rua."
+    },
+    {
+      "id": "r08",
+      "name": "Calmariagreen",
+      "location": "dundrum",
+      "rating": 5,
+      "quote": "Wonderful and cosy place! Highly recommend. Best coffee ever and the staff are friendly 🥰🤗",
+      "fullText": "Wonderful and cosy place! Highly recommend. Best coffee ever and the staff are friendly 🥰🤗",
+      "source": "Google",
+      "lang": "en",
+      "ownerReply": "Baa Baa.... awww Thanks a million Very welcome !!!!! Pleasure to have you guys Here See you soon Xoxo",
+      "reason": "Mesma autora da r17; usamos a r17, que é mais completa."
+    },
+    {
+      "id": "r12",
+      "name": "Mara C.",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "Para mim o melhor café de Dublin 6W",
+      "fullText": "Para mim o melhor café de Dublin 6W",
+      "source": "Google",
+      "lang": "pt",
+      "ownerReply": "Obrigada 😍😍😍😍😘😘 Vejo você em breve Baa Baa... xxx ...",
+      "reason": "Em português; no site em inglês fica deslocada."
+    },
+    {
+      "id": "r15",
+      "name": "Maya C.",
+      "location": "terenure",
+      "rating": 5,
+      "quote": "As good as the older sister! Lovely coffee and an excellent pastries which are tasty like the homemade ❤️",
+      "fullText": "As good as the older sister! Lovely coffee and an excellent pastries which are tasty like the homemade ❤️",
+      "source": "Google",
+      "lang": "en",
+      "ownerReply": "Big Thanks Maya We really appreciate Baa Baa.... xoxo",
+      "reason": "Simpática e prova que as duas lojas têm o mesmo padrão, mas a gramática é estranha. As fotos dela mostram a fachada ainda como 'Black Sheep' — não usar as fotos."
+    }
+  ],
+  "factsFromReviews": [
+    "Cookie de cortesia com o café (Pedro B.)",
+    "Dog-friendly em Terenure: pote de água e petiscos no balcão (Lydia O., Rachel E., Pedro B.)",
+    "Sofás e dono conversador (Iria)",
+    "Opções vegetarianas e veganas (Sam H., Sanghamitra C., Calmariagreen)",
+    "Leite vegetal; flat white com aveia (Rachel E., Sanghamitra C.)",
+    "Coconut flat white (Claire)",
+    "Iced mocha (Camila Y., Manisha C.)",
+    "Lunch deals: saladas, sopa, chicken mayo bagel (Sanghamitra C.)",
+    "Cosméticos à venda em Terenure (Helena L.)",
+    "Aceita crianças; cadeira de rodas passa, mas é apertado; estacionamento pago na rua (Jackson)",
+    "Dundrum: poucos lugares dentro, mesas do lado de fora (Claire, Sanghamitra C.)",
+    "Terenure é a loja mais nova ('as good as the older sister', Maya C.)",
+    "O dono assina as respostas com 'Baa Baa... xoxo'"
+  ]
+}

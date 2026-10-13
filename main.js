@@ -102,38 +102,50 @@ document.addEventListener("visibilitychange", () => {
     updatePour();
   }
 });
-const gallery = document.querySelector("#gallery"),
-  prev = document.querySelector("#gallery-prev"),
-  next = document.querySelector("#gallery-next");
-// As fotos têm larguras diferentes: vai até o começo da próxima (ou anterior).
-function move(dir) {
-  const start = gallery.getBoundingClientRect().left - gallery.scrollLeft;
-  const lefts = [...gallery.children].map(
-    (fig) => fig.getBoundingClientRect().left - start,
-  );
-  const x = gallery.scrollLeft;
-  const target =
-    dir > 0
-      ? (lefts.find((l) => l > x + 5) ?? gallery.scrollWidth)
-      : (lefts.findLast((l) => l < x - 5) ?? 0);
-  gallery.scrollTo({ left: target, behavior: paused ? "instant" : "smooth" });
-}
-prev.addEventListener("click", () => move(-1));
-next.addEventListener("click", () => move(1));
-gallery.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-    e.preventDefault();
-    move(e.key === "ArrowRight" ? 1 : -1);
+// Carrosséis horizontais (galeria e avaliações): setas, teclado ← → e
+// estado dos botões. Os itens têm larguras diferentes, então cada clique vai
+// até o começo do próximo (ou do anterior).
+function setupCarousel(track, prev, next) {
+  function move(dir) {
+    const start = track.getBoundingClientRect().left - track.scrollLeft;
+    const all = [...track.children].map(
+      (item) => item.getBoundingClientRect().left - start,
+    );
+    const lefts = all.map((l) => l - all[0]);
+    const x = track.scrollLeft;
+    const target =
+      dir > 0
+        ? (lefts.find((l) => l > x + 5) ?? track.scrollWidth)
+        : (lefts.findLast((l) => l < x - 5) ?? 0);
+    track.scrollTo({ left: target, behavior: paused ? "instant" : "smooth" });
   }
-});
-function galleryState() {
-  prev.disabled = gallery.scrollLeft < 5;
-  next.disabled =
-    gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 5;
+  function state() {
+    prev.disabled = track.scrollLeft < 5;
+    next.disabled =
+      track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
+  }
+  prev.addEventListener("click", () => move(-1));
+  next.addEventListener("click", () => move(1));
+  track.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      move(e.key === "ArrowRight" ? 1 : -1);
+    }
+  });
+  track.addEventListener("scroll", state, { passive: true });
+  window.addEventListener("resize", state);
+  state();
 }
-gallery.addEventListener("scroll", galleryState, { passive: true });
-window.addEventListener("resize", galleryState);
-galleryState();
+setupCarousel(
+  document.querySelector("#gallery"),
+  document.querySelector("#gallery-prev"),
+  document.querySelector("#gallery-next"),
+);
+setupCarousel(
+  document.querySelector("#review-track"),
+  document.querySelector("#reviews-prev"),
+  document.querySelector("#reviews-next"),
+);
 let ticking = false;
 function scrollEffect() {
   if (!ticking) {

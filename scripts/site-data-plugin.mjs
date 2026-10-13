@@ -1,8 +1,10 @@
-// Plugin Vite: lê src/data/*.json e escreve no index.html, no build e no dev,
-// as seções #cafes e #faq e o JSON-LD. Também gera robots.txt, sitemap.xml e
-// llms.txt a partir dos mesmos dados. O JS do navegador só acrescenta o status
-// "open now" dos cafés.
-import { readFileSync } from "node:fs";
+// Plugin Vite: lê src/data/*.json e escreve no HTML, no build e no dev, as
+// seções #cafes, #reviews e #faq, as citações de clientes, os botões da página
+// /review e o JSON-LD. Também gera robots.txt, sitemap.xml, llms.txt e os QR
+// codes da página /review. O JS do navegador só acrescenta o status "open now"
+// dos cafés.
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import QRCode from "qrcode";
 import { INSTAGRAM_URL, SITE_URL } from "./site.config.mjs";
 
 const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
@@ -53,7 +55,146 @@ const groupLabel = (days) =>
 const hoursText = (hours) =>
   hours ? `${formatTime(hours[0])}–${formatTime(hours[1])}` : "Closed";
 
-function cafesSection(locations) {
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+// Texto do cliente exatamente como está, entre aspas curvas. Parágrafos
+// separados por linha em branco viram <p>.
+function quoteHtml(text) {
+  const paragraphs = text
+    .split(/\n\s*\n/)
+    .map((p) => escape(p.trim()).replace(/\n/g, "<br />"));
+  paragraphs[0] = `“${paragraphs[0]}`;
+  paragraphs[paragraphs.length - 1] += "”";
+  return paragraphs.map((p) => `<p>${p}</p>`).join("");
+}
+
+const STAR =
+  "M10 1.4l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15l-5.3 2.9 1.1-6L1.4 7.7l6-.8z";
+
+function stars(rating) {
+  const paths = [0, 1, 2, 3, 4]
+    .map(
+      (i) =>
+        `<path d="${STAR}" transform="translate(${i * 22} 0)"${i < rating ? "" : ' class="star-empty"'} />`,
+    )
+    .join("");
+  return `<svg class="stars" viewBox="0 0 108 20" role="img" aria-label="${rating} out of 5">${paths}</svg>`;
+}
+
+const locationName = (id, locations) =>
+  locations.find((loc) => loc.id === id)?.name;
+
+// Citação curta dentro de uma seção (Gifts e cards dos cafés).
+function sectionQuote(review, className) {
+  return `<figure class="${className}">
+              <blockquote>${quoteHtml(review.quote)}</blockquote>
+              <figcaption>${escape(review.name)} · Google review</figcaption>
+            </figure>`;
+}
+
+function reviewsSection(data, locations) {
+  // Primeiro os destacados (featured 1, 2, 3…), depois os outros na ordem do
+  // arquivo. Os que têm "section" aparecem na seção indicada, não aqui.
+  const inCarousel = data.reviews.filter((r) => !r.section);
+  const featured = inCarousel
+    .filter((r) => r.featured)
+    .sort((a, b) => a.featured - b.featured);
+  const ordered = [...featured, ...inCarousel.filter((r) => !r.featured)];
+  const cards = ordered
+    .map((r) => {
+      const place = locationName(r.location, locations);
+      return `
+          <figure class="review-card">
+            ${stars(r.rating)}
+            <blockquote>${quoteHtml(r.quote)}</blockquote>
+            <figcaption>
+              <strong>${escape(r.name)}</strong>${place ? `\n              <span class="review-tag">${escape(place)}</span>` : ""}
+              <span class="review-source">Google review</span>
+            </figcaption>
+          </figure>`;
+    })
+    .join("");
+  const badges = locations
+    .map((loc) => {
+      const r = data.ratings[loc.id];
+      return `
+            <p class="rating-badge">
+              <span class="rating-place">${escape(loc.name)}</span>
+              <span aria-hidden="true">·</span>
+              <span><span aria-hidden="true">★</span> ${r.rating.toFixed(1)}</span>
+              <span aria-hidden="true">·</span>
+              <span>${r.count} Google reviews</span>
+            </p>`;
+    })
+    .join("");
+  const [year, month] = data.ratings[locations[0].id].checked.split("-");
+  const buttons = locations
+    .map(
+      (loc) =>
+        `<a class="button small" href="${escape(data.ratings[loc.id].reviewUrl)}" target="_blank" rel="noopener"
+              >Review ${escape(loc.name)} <span>↗</span></a
+            >`,
+    )
+    .join("");
+  return `<section id="reviews" class="reviews section" aria-labelledby="reviews-title">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow">From our regulars</p>
+            <h2 id="reviews-title">
+              <span class="br">Nice things</span> <em>people have said.</em>
+            </h2>
+          </div>
+          <div class="gallery-controls">
+            <button id="reviews-prev" aria-label="Previous review">←</button
+            ><button id="reviews-next" aria-label="Next review">→</button>
+          </div>
+        </div>
+        <div class="rating-badges reveal">${badges}
+          <p class="rating-note">Google ratings, ${MONTHS[Number(month) - 1]} ${year}</p>
+        </div>
+        <div
+          class="review-track"
+          id="review-track"
+          role="region"
+          aria-label="Customer reviews"
+          tabindex="0"
+        >${cards}
+        </div>
+        <div class="reviews-foot">
+          <p>Been in? Tell people about it.</p>
+          <div class="reviews-actions">
+            ${buttons}
+          </div>
+        </div>
+      </section>`;
+}
+
+// Botões grandes da página /review: direto para a tela de avaliar no Google.
+function reviewButtons(data, locations) {
+  return locations
+    .map(
+      (loc) =>
+        `<a class="review-choice" href="${escape(data.ratings[loc.id].reviewUrl)}"
+          >${escape(loc.name)} <span aria-hidden="true">↗</span></a
+        >`,
+    )
+    .join("\n        ");
+}
+
+function cafesSection(locations, data) {
   const cards = locations
     .map((loc) => {
       const rows = groupHours(loc.hours)
@@ -66,6 +207,10 @@ function cafesSection(locations) {
         )
         .join("");
       const todo = loc.noteTodo ? ` <!-- TODO: ${loc.noteTodo} -->` : "";
+      const review = data.reviews.find((r) => r.section === `cafe-${loc.id}`);
+      const quote = review
+        ? `\n            ${sectionQuote(review, "cafe-quote")}`
+        : "";
       return `
           <article
             class="cafe-card reveal"
@@ -86,12 +231,14 @@ function cafesSection(locations) {
               <tbody>${rows}
               </tbody>
             </table>
-            <p class="cafe-note">${escape(loc.note)}${todo}</p>
+            <p class="cafe-note">${escape(loc.note)}${todo}</p>${quote}
             <div class="cafe-actions">
               <a class="button small" href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener"
                 >Directions <span>↗</span></a
               ><a class="text-link" href="${escape(loc.mapsUrl)}" target="_blank" rel="noopener"
                 >See on Google Maps <span>↗</span></a
+              ><a class="text-link" href="${escape(data.ratings[loc.id].reviewUrl)}" target="_blank" rel="noopener"
+                >Leave a review <span>↗</span></a
               >
             </div>
           </article>`;
@@ -259,10 +406,41 @@ ${cafes}
 `;
 }
 
+// QR codes da página /review, para imprimir (balcão, copos). Ficam em
+// public/qr/ e só são reescritos quando mudam.
+async function writeQrCodes() {
+  const url = `${SITE_URL}review`;
+  const options = {
+    margin: 4,
+    color: { dark: "#202d22", light: "#f5efd9" },
+  };
+  const dir = new URL("../public/qr/", import.meta.url);
+  mkdirSync(dir, { recursive: true });
+  const write = (name, content) => {
+    const file = new URL(name, dir);
+    let current = null;
+    try {
+      current = readFileSync(file);
+    } catch {}
+    if (!current || !Buffer.from(content).equals(current)) {
+      writeFileSync(file, content);
+    }
+  };
+  write(
+    "review-qr.svg",
+    await QRCode.toString(url, { ...options, type: "svg" }),
+  );
+  write(
+    "review-qr.png",
+    await QRCode.toBuffer(url, { ...options, type: "png", width: 2000 }),
+  );
+}
+
 export default function siteData() {
   const load = () => ({
     locations: readJson("locations.json"),
     faq: readJson("faq.json"),
+    reviews: readJson("reviews.json"),
   });
   const files = () => {
     const { locations } = load();
@@ -287,11 +465,22 @@ export default function siteData() {
         res.end(body);
       });
     },
+    async buildStart() {
+      await writeQrCodes();
+    },
     transformIndexHtml(html) {
-      const { locations, faq } = load();
+      const { locations, faq, reviews } = load();
       return html
         .replaceAll("%SITE_URL%", SITE_URL)
-        .replace("<!-- @cafes -->", cafesSection(locations))
+        .replace("<!-- @reviews -->", reviewsSection(reviews, locations))
+        .replace(/<!-- @quote (\w+) -->/g, (_, id) => {
+          const review = reviews.reviews.find((r) => r.id === id);
+          if (!review)
+            throw new Error(`Review ${id} não existe em reviews.json`);
+          return sectionQuote(review, "section-quote");
+        })
+        .replace("<!-- @review-buttons -->", reviewButtons(reviews, locations))
+        .replace("<!-- @cafes -->", cafesSection(locations, reviews))
         .replace("<!-- @faq -->", faqSection(faq))
         .replace("<!-- @jsonld -->", jsonLd(locations, faq));
     },
