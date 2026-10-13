@@ -148,3 +148,88 @@ function scrollEffect() {
 }
 window.addEventListener("scroll", scrollEffect, { passive: true });
 document.querySelector("#year").textContent = new Date().getFullYear();
+// Status ao vivo dos cafés, sempre no horário de Dublin.
+const DAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+const DAY_NAMES = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+const dublinClock = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Europe/Dublin",
+  weekday: "short",
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+});
+function dublinNow() {
+  const parts = Object.fromEntries(
+    dublinClock.formatToParts(new Date()).map((p) => [p.type, p.value]),
+  );
+  return {
+    day: DAY_KEYS.indexOf(parts.weekday.toLowerCase().slice(0, 3)),
+    minutes: Number(parts.hour) * 60 + Number(parts.minute),
+  };
+}
+const toMinutes = (time) => {
+  const [h, m] = time.split(":").map(Number);
+  return h * 60 + m;
+};
+// "07:00" -> "7am", "15:50" -> "3.50pm"
+function formatTime(time) {
+  const [h, m] = time.split(":").map(Number);
+  return `${h % 12 || 12}${m ? `.${String(m).padStart(2, "0")}` : ""}${h < 12 ? "am" : "pm"}`;
+}
+function cafeStatus(hours, { day, minutes }) {
+  const today = hours[DAY_KEYS[day]];
+  if (
+    today &&
+    minutes >= toMinutes(today[0]) &&
+    minutes < toMinutes(today[1])
+  ) {
+    return { open: true, text: `Open now · until ${formatTime(today[1])}` };
+  }
+  if (today && minutes < toMinutes(today[0])) {
+    return {
+      open: false,
+      text: `Closed · opens ${formatTime(today[0])} today`,
+    };
+  }
+  for (let ahead = 1; ahead <= 7; ahead++) {
+    const next = (day + ahead) % 7;
+    const hoursNext = hours[DAY_KEYS[next]];
+    if (!hoursNext) continue;
+    // "tomorrow" só de terça a sexta; sábado e segunda vão pelo nome do dia.
+    const when =
+      ahead === 1 && next >= 1 && next <= 4 ? "tomorrow" : DAY_NAMES[next];
+    return {
+      open: false,
+      text: `Closed · opens ${formatTime(hoursNext[0])} ${when}`,
+    };
+  }
+  return null;
+}
+function updateCafes() {
+  const now = dublinNow();
+  document.querySelectorAll(".cafe-card[data-hours]").forEach((card) => {
+    const status = cafeStatus(JSON.parse(card.dataset.hours), now);
+    const el = card.querySelector("[data-status]");
+    if (status) {
+      el.textContent = status.text;
+      el.dataset.open = String(status.open);
+      el.hidden = false;
+    }
+    card.querySelectorAll("tr[data-days]").forEach((row) => {
+      row.classList.toggle(
+        "today",
+        row.dataset.days.split(" ").includes(DAY_KEYS[now.day]),
+      );
+    });
+  });
+}
+updateCafes();
+setInterval(updateCafes, 60000);

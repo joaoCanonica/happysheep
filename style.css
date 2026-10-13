@@ -57,6 +57,7 @@ button {
 }
 button:focus-visible,
 a:focus-visible,
+summary:focus-visible,
 [tabindex]:focus-visible {
   outline: 3px solid var(--red);
   outline-offset: 5px;
@@ -106,6 +107,14 @@ h3 {
 }
 .eyebrow {
   margin-bottom: 1.5rem;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 .skip {
   position: fixed;
@@ -552,6 +561,148 @@ h3 {
 .film-start[hidden] {
   display: none;
 }
+.cafes {
+  background: var(--rose);
+}
+.cafes h2 em {
+  color: var(--red);
+}
+.cafe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: stretch;
+}
+.cafe-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding: clamp(1.5rem, 3vw, 2.75rem);
+  background: var(--paper);
+  border-radius: 18px;
+  box-shadow: 15px 24px 0 #202d2220;
+}
+.cafe-photo[hidden],
+.cafe-status[hidden] {
+  display: none;
+}
+.cafe-name {
+  font:
+    400 clamp(3.2rem, 5.5vw, 5.5rem) / 0.95 "DM Serif Display",
+    Georgia,
+    serif;
+  letter-spacing: -0.03em;
+}
+.cafe-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: -0.6rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.cafe-status::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.cafe-status[data-open="true"]::before {
+  background: var(--green);
+  box-shadow: 0 0 0 4px #314b3626;
+}
+.cafe-card address {
+  font-style: normal;
+}
+.cafe-hours {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.cafe-hours th,
+.cafe-hours td {
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--line);
+  font-weight: 400;
+  text-align: left;
+}
+.cafe-hours td {
+  text-align: right;
+}
+.cafe-hours tr:last-child th,
+.cafe-hours tr:last-child td {
+  border-bottom: 1px solid var(--line);
+}
+.cafe-hours tr.today th,
+.cafe-hours tr.today td {
+  font-weight: 700;
+}
+.cafe-hours tr.today th::after {
+  content: "Today";
+  margin-left: 0.6rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  background: var(--yellow);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.cafe-note {
+  max-width: 42ch;
+  font-size: 0.95rem;
+}
+.cafe-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+.faq {
+  background: #e4e5d5;
+}
+.faq h2 em {
+  color: var(--red);
+}
+.faq-list {
+  max-width: 920px;
+  border-top: 1px solid var(--line);
+}
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+.faq-item summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.35rem 0;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  list-style: none;
+  cursor: pointer;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font:
+    1.9rem/1 "DM Serif Display",
+    serif;
+  transition: transform 0.3s;
+}
+.faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+.faq-item p {
+  max-width: 60ch;
+  padding-bottom: 1.5rem;
+}
 .moments {
   overflow: hidden;
 }
@@ -914,6 +1065,7 @@ footer {
     margin-top: 1.5rem;
   }
   .coffee-grid,
+  .cafe-grid,
   .gift-layout,
   .film-layout {
     grid-template-columns: 1fr;

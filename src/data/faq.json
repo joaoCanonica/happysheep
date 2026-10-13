@@ -1,0 +1,35 @@
+[
+  {
+    "q": "Are you dog-friendly?",
+    "a": "In Terenure, absolutely. There's a water bowl inside and a few treats on the counter.",
+    "todo": "e Dundrum?"
+  },
+  {
+    "q": "Do you have plant milks?",
+    "a": "Yes, oat and coconut among them. Just ask at the counter."
+  },
+  {
+    "q": "Any vegetarian or vegan food?",
+    "a": "Yes. There are vegetarian sandwiches, and vegan options too."
+  },
+  {
+    "q": "Can I sit in?",
+    "a": "In Terenure, yes, there are sofas and a few tables. Dundrum is mostly takeaway, with tables outside and a couple of seats in."
+  },
+  {
+    "q": "Is there parking?",
+    "a": "In Terenure there's paid on-street parking nearby."
+  },
+  {
+    "q": "Is it wheelchair accessible?",
+    "a": "You can get in, but Terenure is a small space. Give us a shout at the door and we'll make room."
+  },
+  {
+    "q": "Do you sell gift cards?",
+    "a": "Not at the moment, sorry. Our mugs and totes make a decent present though."
+  },
+  {
+    "q": "Are kids welcome?",
+    "a": "Of course."
+  }
+]

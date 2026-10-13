@@ -44,16 +44,25 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 
 ## Estrutura
 
-- `index.html`: conteúdo, seções, links e SEO básico.
+- `index.html`: conteúdo, seções e `<head>`. Os marcadores `<!-- @cafes -->`, `<!-- @faq -->` e `<!-- @jsonld -->` são preenchidos no build; `%SITE_URL%` vira a URL do site.
+- `src/data/locations.json`: as duas lojas (endereço, Eircode, coordenadas, place_id, horário em 24h, detalhes, links do Google Maps). **Horário e endereço se mudam só aqui.**
+- `src/data/faq.json`: perguntas e respostas do FAQ. O mesmo texto vai para a página e para o JSON-LD (FAQPage).
+- `scripts/site.config.mjs`: `SITE_URL`. Troque aqui quando houver domínio próprio; canonical, og:url, JSON-LD, robots.txt, sitemap.xml e llms.txt mudam juntos.
+- `scripts/site-data-plugin.mjs`: plugin do Vite que lê `src/data/` e escreve no HTML as seções #cafes e #faq e o JSON-LD, e gera `robots.txt`, `sitemap.xml` e `llms.txt` no build (no dev, servidos pelo próprio Vite). Por isso esses três arquivos não ficam em `public/`.
 - `style.css`: visual, animações e responsividade.
-- `main.js`: menu mobile, galeria, vídeo, revelação ao rolar e botão "Pause animations" no rodapé.
+- `main.js`: menu mobile, galeria, vídeos, revelação ao rolar, botão "Pause animations" e o status "Open now" dos cafés (sempre no fuso Europe/Dublin; sem JS, o card mostra só a tabela).
 - `public/assets/img/`: fotos otimizadas, geradas por `npm run media`. Não edite à mão.
 - `public/assets/video/`: vídeo do iced latte (WebM + MP4, sem áudio, 720 px) e o poster.
 - `public/assets/fonts/`: DM Sans e DM Serif Display (SIL OFL), servidas pelo site para não haver troca de fonte durante o carregamento.
 - `public/assets/`: logo e o vídeo Good Vibes. Tudo o que está em `public` vai para o deploy.
+- `public/`: favicons (`favicon.svg` vetorizado da ovelha do logo, PNGs 32/48, `apple-touch-icon.png`, ícones 192/512), `site.webmanifest` e `og.jpg` (1200x630, imagem de compartilhamento).
 - `scripts/optimize-media.mjs`: pipeline de imagens com sharp.
 - `source-media/`: material guardado fora do site. Fica fora de `public`, então não vai para o deploy. Veja abaixo.
 - `vite.config.js`, `package.json`, `package-lock.json`, `vercel.json`: configuração.
+
+## Cache
+
+`vercel.json` manda `/assets/*` com cache de um ano (`immutable`). Os arquivos do Vite têm hash no nome, mas fotos, vídeos e fontes não. **Para trocar uma foto ou vídeo, use um nome de arquivo novo**, ou quem já visitou o site continua vendo a versão antiga.
 
 ## Pasta `source-media`
 

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "dundrum",
+    "name": "Dundrum",
+    "streetAddress": "Classon House, Dundrum Business Park",
+    "locality": "Dundrum, Dublin 14",
+    "postalCode": "D14 T8W5",
+    "lat": 53.3031883,
+    "lng": -6.2448267,
+    "placeId": "ChIJG7q4HFAJZ0gRAWcqjqNRAzY",
+    "hours": {
+      "mon": ["07:00", "15:50"],
+      "tue": ["07:00", "15:50"],
+      "wed": ["07:00", "15:50"],
+      "thu": ["07:00", "15:50"],
+      "fri": ["07:00", "15:50"],
+      "sat": ["08:00", "15:00"],
+      "sun": null
+    },
+    "features": ["takeaway", "outdoor-seating", "few-seats-inside"],
+    "note": "Mostly takeaway, with tables outside and a couple of seats in. A short walk from the Windy Arbour Luas stop.",
+    "noteTodo": "dono confirma o Luas",
+    "directionsUrl": "https://www.google.com/maps/dir/?api=1&destination=53.3031883,-6.2448267&destination_place_id=ChIJG7q4HFAJZ0gRAWcqjqNRAzY",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Happy+Sheep+Dublin&query_place_id=ChIJG7q4HFAJZ0gRAWcqjqNRAzY"
+  },
+  {
+    "id": "terenure",
+    "name": "Terenure",
+    "streetAddress": "7 Terenure Road North",
+    "locality": "Terenure, Dublin 6W",
+    "postalCode": "D6W DR50",
+    "lat": 53.3143582,
+    "lng": -6.2823763,
+    "placeId": "ChIJ-agAd90NZ0gRyaoN1GAQK0I",
+    "hours": {
+      "mon": ["07:00", "15:50"],
+      "tue": ["07:00", "15:50"],
+      "wed": ["07:00", "15:50"],
+      "thu": ["07:00", "15:50"],
+      "fri": ["07:00", "15:50"],
+      "sat": ["08:00", "15:50"],
+      "sun": null
+    },
+    "features": [
+      "dog-friendly",
+      "sofas",
+      "cosmetics",
+      "paid-street-parking",
+      "wheelchair-accessible-small-space",
+      "kids-welcome"
+    ],
+    "note": "Sofas, a dog bowl by the door and treats at the counter. Dogs very welcome.",
+    "directionsUrl": "https://www.google.com/maps/dir/?api=1&destination=53.3143582,-6.2823763&destination_place_id=ChIJ-agAd90NZ0gRyaoN1GAQK0I",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Happy+Sheep+Dublin&query_place_id=ChIJ-agAd90NZ0gRyaoN1GAQK0I"
+  }
+]

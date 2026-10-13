@@ -9,6 +9,11 @@
       name="description"
       content="Independent coffee shop with two cafés in Dublin, Dundrum Business Park (D14) and Terenure Road North (D6W). Coffee, homemade bakes, lunch and gifts. Open Monday to Saturday, from 7am on weekdays."
     />
+    <link rel="canonical" href="%SITE_URL%" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_IE" />
+    <meta property="og:site_name" content="Happy Sheep Dublin" />
+    <meta property="og:url" content="%SITE_URL%" />
     <meta
       property="og:title"
       content="Happy Sheep Dublin | Coffee shop in Dundrum & Terenure"
@@ -17,6 +22,14 @@
       property="og:description"
       content="Independent coffee shop with two cafés in Dublin, Dundrum Business Park (D14) and Terenure Road North (D6W). Coffee, homemade bakes, lunch and gifts. Open Monday to Saturday, from 7am on weekdays."
     />
+    <meta property="og:image" content="%SITE_URL%og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Happy Sheep Dublin logo with the words A little happy, next to a coffee and a brownie"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
     <link
       rel="preload"
       as="font"
@@ -38,7 +51,11 @@
       href="/assets/fonts/dm-serif-display-italic-latin.woff2"
       crossorigin
     />
-    <link rel="icon" href="/assets/logo.jpg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link
       rel="preload"
       as="image"
@@ -48,6 +65,7 @@
       fetchpriority="high"
     />
     <link rel="stylesheet" href="/style.css" />
+    <!-- @jsonld -->
   </head>
   <body>
     <a href="#main" class="skip">Skip to content</a>
@@ -136,10 +154,10 @@
           <span>Happy Sheep Dublin</span><span>Scroll down ↓</span>
         </div>
       </section>
-      <div
-        class="marquee"
-        aria-label="Flat whites, iced lattes, brookies, Snoopy mugs, Dundrum, Terenure"
-      >
+      <div class="marquee">
+        <p class="visually-hidden">
+          Flat whites, iced lattes, brookies, Snoopy mugs, Dundrum, Terenure
+        </p>
         <div aria-hidden="true">
           <span>Flat whites</span><i>✳</i><span>Iced lattes</span><i>✳</i
           ><span>Brookies</span><i>✳</i><span>Snoopy mugs</span><i>✳</i
@@ -386,6 +404,7 @@
           </div>
         </div>
       </section>
+      <!-- @cafes -->
       <section id="moments" class="moments section">
         <div class="section-head reveal">
           <div>
@@ -604,6 +623,7 @@
           >
         </div>
       </section>
+      <!-- @faq -->
       <section class="hello section">
         <p class="eyebrow reveal">Baa Baa, see you soon</p>
         <h2 class="reveal">
