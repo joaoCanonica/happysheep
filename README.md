@@ -24,7 +24,7 @@ Para regenerar as fotos otimizadas (AVIF + WebP em 480, 800 e 1200 px):
 npm run media
 ```
 
-O script `scripts/optimize-media.mjs` lê os originais de `source-media/photos/`, nunca amplia além da largura original e grava em `public/assets/img/` com um `manifest.json` (largura, altura e larguras geradas). Para trocar uma foto, substitua o original em `source-media/photos/` com o mesmo nome, rode `npm run media` e confira width/height no HTML.
+O script `scripts/optimize-media.mjs` lê os originais de `source-media/photos/`, nunca amplia além da largura original e grava em `public/assets/img/`; largura, altura e larguras geradas ficam em `src/data/images.json`. Para trocar uma foto, coloque o original em `source-media/photos/` com um nome novo (por causa do cache, veja abaixo), atualize a lista `PHOTOS` do script, rode `npm run media` e use no HTML o width/height de `src/data/images.json`.
 
 Para formatar o código com Prettier:
 

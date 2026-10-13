@@ -58,6 +58,8 @@ button {
 button:focus-visible,
 a:focus-visible,
 summary:focus-visible,
+video:focus-visible,
+.film-wrap:has(video:focus-within),
 [tabindex]:focus-visible {
   outline: 3px solid var(--red);
   outline-offset: 5px;
@@ -776,7 +778,9 @@ h3 {
   text-align: left;
 }
 .cafe-hours td {
+  padding-left: 1rem;
   text-align: right;
+  white-space: nowrap;
 }
 .cafe-hours tr:last-child th,
 .cafe-hours tr:last-child td {
@@ -788,6 +792,7 @@ h3 {
 }
 .cafe-hours tr.today th::after {
   content: "Today";
+  display: inline-block;
   margin-left: 0.6rem;
   padding: 0.15rem 0.5rem;
   border-radius: 20px;
@@ -962,6 +967,14 @@ footer {
   display: flex;
   gap: 2rem;
   font-size: 0.85rem;
+}
+.footer-links {
+  flex-wrap: wrap;
+  row-gap: 1rem;
+}
+.footer-links a,
+.footer-links button {
+  white-space: nowrap;
 }
 .footer-links a {
   text-decoration: none;

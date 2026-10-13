@@ -1,5 +1,6 @@
 // Gera AVIF + WebP responsivos das fotos do site.
-// Fonte: source-media/photos/ (fora do deploy). Saída: public/assets/img/.
+// Fonte: source-media/photos/ (fora do deploy). Saída: public/assets/img/;
+// width/height de cada foto em src/data/images.json.
 // Uso: npm run media
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -63,6 +64,6 @@ for (const photo of PHOTOS) {
 }
 
 await writeFile(
-  `${OUT}/manifest.json`,
+  "src/data/images.json",
   JSON.stringify(manifest, null, 2) + "\n",
 );
