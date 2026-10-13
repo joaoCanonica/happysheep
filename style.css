@@ -463,6 +463,10 @@ html.menu-open {
   z-index: 4;
   background: var(--paper);
 }
+.hero-bottom > span {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
 .hero-status {
   display: inline-flex;
   align-items: center;
