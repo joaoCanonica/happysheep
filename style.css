@@ -173,13 +173,8 @@ h3 {
   font-size: 0.8rem;
   gap: 1rem;
 }
-#motion {
-  background: none;
-  border: 1px solid var(--line);
-  height: 35px;
-  width: 35px;
-  border-radius: 50%;
-  color: var(--ink);
+.br {
+  display: block;
 }
 #menu {
   display: none;
@@ -512,68 +507,6 @@ h3 {
 .film-start[hidden] {
   display: none;
 }
-.gift-card-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  align-items: center;
-  background: var(--rose);
-  overflow: hidden;
-}
-.gift-card-copy p:not(.eyebrow) {
-  max-width: 375px;
-  margin: 2rem 0;
-}
-.gift-card-copy small {
-  display: block;
-  font-size: 0.75rem;
-  margin-top: 1rem;
-}
-.gift-card-art {
-  display: block;
-  text-decoration: none;
-  perspective: 1100px;
-  transform: rotate(7deg);
-}
-.card-inner {
-  background: var(--paper);
-  padding: 2rem;
-  border-radius: 18px;
-  box-shadow: 15px 24px 0 #202d2220;
-  transition: transform 0.25s ease-out;
-}
-.card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-}
-.card-top img {
-  width: 80px;
-  height: 80px;
-  mix-blend-mode: multiply;
-}
-.card-top span {
-  font-size: 0.7rem;
-  text-align: right;
-}
-.card-inner > strong {
-  display: block;
-  font-size: clamp(3.5rem, 6.5vw, 7rem);
-  letter-spacing: -0.06em;
-  line-height: 0.9;
-  margin: 2rem 0 3rem;
-  font-weight: 500;
-}
-.card-inner > strong em {
-  color: var(--red);
-}
-.card-bottom {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-}
 .moments {
   overflow: hidden;
 }
@@ -686,8 +619,16 @@ footer {
 .footer-links a {
   text-decoration: none;
 }
-.footer-links a:hover {
+.footer-links a:hover,
+#motion:hover {
   color: var(--yellow);
+}
+#motion {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
 }
 .footer-links small {
   margin-left: auto;
@@ -774,9 +715,6 @@ footer {
   .film-layout {
     gap: 3rem;
   }
-  .gift-card-section {
-    gap: 3rem;
-  }
   .gallery figure {
     flex-basis: 42%;
   }
@@ -803,11 +741,6 @@ footer {
     font-size: 0.7rem;
     padding: 0.65rem 0.85rem;
     gap: 0.7rem;
-  }
-  #motion {
-    height: 30px;
-    width: 30px;
-    font-size: 0.8rem;
   }
   #menu {
     display: flex;
@@ -874,8 +807,8 @@ footer {
     font-size: 1rem;
     margin-top: 1rem;
   }
-  .hero-description br:first-child {
-    display: none;
+  .br {
+    display: inline;
   }
   .hero .text-link {
     margin-top: 1rem;
@@ -933,8 +866,7 @@ footer {
   }
   .coffee-grid,
   .gift-layout,
-  .film-layout,
-  .gift-card-section {
+  .film-layout {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
@@ -950,9 +882,6 @@ footer {
   .coffee-story {
     padding-top: 0;
   }
-  .story-text h3 br {
-    display: none;
-  }
   .brownie {
     margin: 2rem 0 0 2.5rem;
   }
@@ -961,9 +890,6 @@ footer {
   }
   .gift-copy {
     padding-top: 1rem;
-  }
-  .gift-copy h3 br {
-    display: none;
   }
   .gift-copy p:not(.eyebrow) {
     max-width: 100%;
@@ -977,19 +903,6 @@ footer {
   }
   .film-note {
     margin-top: 1.5rem;
-  }
-  .gift-card-art {
-    margin: 1rem 0.5rem;
-    max-width: 480px;
-  }
-  .card-inner {
-    padding: 1.5rem;
-  }
-  .card-inner > strong {
-    font-size: 4.7rem;
-  }
-  .gift-card-section {
-    padding-bottom: 5rem;
   }
   .gallery-controls {
     margin-top: 1.5rem;
@@ -1040,10 +953,6 @@ footer {
     width: 62px;
     height: 62px;
   }
-  #motion {
-    width: 27px;
-    height: 27px;
-  }
   .hero-stamp {
     width: 107px;
     height: 107px;
@@ -1058,9 +967,6 @@ footer {
   }
   .hero-photo {
     height: 365px;
-  }
-  .card-bottom {
-    font-size: 0.55rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {

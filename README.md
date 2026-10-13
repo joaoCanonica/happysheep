@@ -1,73 +1,61 @@
 # Happy Sheep Dublin
 
-Código completo da prévia: HTML, CSS, JavaScript e Vite, com imagens, logo e vídeos locais.
+Site da Happy Sheep Dublin, cafeteria independente com duas lojas em Dublin (Dundrum e Terenure). HTML, CSS e JavaScript puros, empacotados com Vite e publicados na Vercel em https://happysheep-sage.vercel.app.
 
 ## Executar no computador
 
-Instale Node.js LTS com npm. Abra esta pasta no VS Code e execute:
+Instale Node.js LTS com npm e rode na raiz do projeto:
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Abra o endereço exibido no terminal. Para conferir a versão de produção:
+Para conferir a versão de produção:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Colocar no GitHub
-
-Extraia o ZIP. A pasta que contém `package.json` é a raiz do projeto. Envie o conteúdo dessa pasta ao repositório, incluindo `public`, `package-lock.json` e `.gitignore`.
-
-Depois de criar um repositório vazio no GitHub, substitua a URL abaixo:
+Para formatar o código com Prettier:
 
 ```bash
-git init
-git add .
-git commit -m "feat: add Happy Sheep Dublin website"
-git branch -M main
-git remote add origin https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git
-git push -u origin main
+npm run format
 ```
 
-## Publicar na Vercel
+## Publicação na Vercel
 
-Importe seu repositório do GitHub na Vercel.
+Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.json`:
 
 - Framework Preset: Vite.
-- Root Directory: pasta que contém `package.json`.
 - Install Command: `npm ci`.
 - Build Command: `npm run build`.
 - Output Directory: `dist`.
-- Variáveis de ambiente: nenhuma necessária.
+- Variáveis de ambiente: nenhuma.
 
-O arquivo `vercel.json` já define as configurações. A pasta `dist` é gerada durante a publicação.
-
-Documentação: https://vercel.com/docs/frameworks/frontend/vite
-
-## Onde editar
+## Estrutura
 
 - `index.html`: conteúdo, seções, links e SEO básico.
 - `style.css`: visual, animações e responsividade.
-- `main.js`: menu, galeria, vídeo e controle de movimentos.
-- `public/assets/`: todas as imagens e vídeos usados no site.
-- `vite.config.js`: configuração do Vite.
-- `package.json` e `package-lock.json`: comandos e dependências.
-- `vercel.json`: configuração de publicação.
+- `main.js`: menu mobile, galeria, vídeo, revelação ao rolar e botão "Pause animations" no rodapé.
+- `public/assets/`: imagens e vídeos usados no site. Os caminhos `/assets/...` no HTML apontam para cá.
+- `public/`: outros arquivos enviados pelo cliente. Tudo o que está em `public` vai para o deploy.
+- `source-media/`: material guardado fora do site. Fica fora de `public`, então não vai para o deploy. Veja abaixo.
+- `vite.config.js`, `package.json`, `package-lock.json`, `vercel.json`: configuração.
 
-Os caminhos `/assets/...` são servidos a partir de `public/assets`. Abra o site pelo servidor do Vite, não por duplo clique no HTML.
+## Pasta `source-media`
 
-## Integrações e conteúdo
+Arquivos do cliente que **não devem ser usados no site**, guardados só como referência:
 
-O cartão-presente abre a página da Square fornecida pelo cliente. O Instagram abre o perfil Happy Sheep Dublin. Não há backend, banco de dados ou credenciais. As fontes DM Sans e DM Serif Display são carregadas do Google Fonts.
+- `rainbow-salad.webp` e `SaveClip.App_730532597_…_n.jpg`: a mesma arte de divulgação, com texto embutido. Não é foto.
+- `snapinsta-1791860478820.mp4`: o copo mostra o nome antigo da marca.
+- `snapinsta-1791860006615.mp4`: vídeo com aparência de gerado por IA.
 
-A prévia não informa endereços, horários ou preços não confirmados. Imagens e vídeo foram fornecidos pelo cliente. O vídeo tem versões MP4 e WebM e uma imagem de capa.
+Não mova nada desta pasta para `public`.
 
-## Verificação e arquivos gerados
+## Integrações
 
-O build e as referências locais foram verificados. A revisão visual interativa em desktop e celular ainda deve ser feita: o navegador do ambiente anterior bloqueou o acesso à prévia.
+O Instagram abre o perfil @happysheepdublin. Não há backend, banco de dados nem credenciais. As fontes DM Sans e DM Serif Display vêm do Google Fonts.
 
-O ZIP contém código editável e todos os assets do site. `node_modules`, `dist`, histórico Git e configurações internas da hospedagem anterior não são necessários para criar o novo repositório e não estão incluídos.
+Ainda não existem cardápio digital nem fotos das fachadas. As âncoras `#cafes` e `#reviews` do menu serão criadas nas próximas etapas.

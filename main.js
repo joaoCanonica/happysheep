@@ -9,16 +9,10 @@ function setMotion(value) {
   paused = value;
   root.classList.toggle("paused", paused);
   motion.setAttribute("aria-pressed", String(paused));
-  motion.setAttribute(
-    "aria-label",
-    paused ? "Enable animations" : "Pause animations",
-  );
-  motion.title = paused ? "Enable animations" : "Pause animations";
-  motion.textContent = paused ? "▶" : "Ⅱ";
+  motion.textContent = paused ? "Play animations" : "Pause animations";
   if (paused) {
     video.pause();
     document.querySelector(".hero-photo img").style.transform = "";
-    document.querySelector(".card-inner").style.transform = "";
   }
 }
 setMotion(paused);
@@ -110,16 +104,6 @@ function galleryState() {
 gallery.addEventListener("scroll", galleryState, { passive: true });
 window.addEventListener("resize", galleryState);
 galleryState();
-const card = document.querySelector(".gift-card-art"),
-  inner = document.querySelector(".card-inner");
-card.addEventListener("pointermove", (e) => {
-  if (paused || e.pointerType !== "mouse") return;
-  const b = card.getBoundingClientRect(),
-    x = (e.clientX - b.left) / b.width - 0.5,
-    y = (e.clientY - b.top) / b.height - 0.5;
-  inner.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 12}deg)`;
-});
-card.addEventListener("pointerleave", () => (inner.style.transform = ""));
 let ticking = false;
 function scrollEffect() {
   if (!ticking) {
