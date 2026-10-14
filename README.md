@@ -62,7 +62,7 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 - `index.html`: conteúdo, seções e `<head>`. Os marcadores `<!-- @... -->` (cafés, avaliações, FAQ, menu mobile, rodapé com as lojas, JSON-LD) são preenchidos no build; `%SITE_URL%` vira a URL do site.
 - `src/data/locations.json`: as duas lojas (endereço, Eircode, coordenadas, place_id, horário em 24h, detalhes, links do Google Maps). **Horário e endereço se mudam só aqui.**
 - `src/data/reviews.json`: avaliações do Google, copiadas literalmente dos prints. **Não formatar nem editar** (está no `.prettierignore`). O site usa `ratings` (nota, quantidade, link de avaliar por loja) e `reviews` (`quote`, `name`, `location`, `featured`, `section`). `fullText`, `ownerReply`, `notOnSite` e `factsFromReviews` não vão para o site. Ordem do carrossel: `featured` 1, 2, 3…, depois o resto na ordem do arquivo; quem tem `section` aparece na seção indicada (`gifts`, `cafe-dundrum`, `cafe-terenure`), não no carrossel. As citações em Gifts são escolhidas por id no HTML (`<!-- @quote r18 -->`). Nunca exibir datas, nunca corrigir a ortografia de um quote, nunca usar AggregateRating/Review no JSON-LD.
-- `review.html`: página `/review` do QR code do balcão (noindex, fora do sitemap). Leva direto à tela de avaliar de cada loja, sem pedir nota antes, sem filtrar cliente e sem brinde, como exige a política do Google.
+- `review.html`: página `/review` do QR code do balcão (noindex, fora do sitemap). `404.html`: página de endereço inexistente, no mesmo estilo. Leva direto à tela de avaliar de cada loja, sem pedir nota antes, sem filtrar cliente e sem brinde, como exige a política do Google.
 - `src/data/faq.json`: perguntas e respostas do FAQ. O mesmo texto vai para a página e para o JSON-LD (FAQPage).
 - `scripts/site.config.mjs`: `SITE_URL`. Troque aqui quando houver domínio próprio; canonical, og:url, JSON-LD, robots.txt, sitemap.xml e llms.txt mudam juntos.
 - `scripts/site-data-plugin.mjs`: plugin do Vite que lê `src/data/` e escreve no HTML as seções #cafes, #reviews e #faq, as lojas do menu mobile e do rodapé e o JSON-LD, e gera `robots.txt`, `sitemap.xml` e `llms.txt` no build (no dev, servidos pelo próprio Vite). Por isso esses três arquivos não ficam em `public/`.
@@ -78,6 +78,27 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 - `scripts/optimize-media.mjs`: pipeline de imagens com sharp.
 - `source-media/`: material guardado fora do site. Fica fora de `public`, então não vai para o deploy. Veja abaixo.
 - `vite.config.js`, `package.json`, `package-lock.json`, `vercel.json`: configuração.
+
+## Métricas (Vercel Web Analytics)
+
+O site conta visitas e cliques com o Vercel Web Analytics (pacote `@vercel/analytics`, em `src/analytics.js`): sem cookies e sem banner de consentimento.
+
+**Para ativar** (uma vez): no painel da Vercel, abra o projeto **happysheep** → aba **Analytics** → **Enable** (Web Analytics). Depois faça um novo deploy (qualquer push na `main`). Enquanto não estiver ativado, o script `/_vercel/insights/script.js` responde 404 e o navegador mostra um erro no console; nada quebra, mas ative antes de divulgar o site. No computador (`localhost`) o script não é carregado.
+
+**Onde ver**: mesmo projeto → aba **Analytics**. Visitas e páginas aparecem no topo; os cliques ficam no painel **Events**, com o nome do evento e, ao clicar nele, as propriedades:
+
+| Evento         | Propriedades                                                        | Quando                                                                           |
+| -------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `directions`   | `cafe` (`dundrum`, `terenure`), `place` (`cafes`, `footer`, `menu`) | clique em "Directions"                                                           |
+| `leave_review` | `cafe`, `place` (`cafes`, `reviews`, `review_page`)                 | clique em "Leave a review", "Review Dundrum/Terenure" ou nos botões da `/review` |
+| `instagram`    | `place` (`gifts`, `gallery`, `closing`, `faq`, `footer`, `menu`)    | clique num link do Instagram                                                     |
+| `video_play`   | `video` (`good-vibes`)                                              | play no vídeo Good Vibes                                                         |
+
+Atenção ao plano: as visitas funcionam em qualquer plano, mas os eventos personalizados (`track`) são do Vercel Pro ou Enterprise (confira em https://vercel.com/docs/analytics/custom-events). No Hobby, os cliques simplesmente não aparecem; o site continua funcionando. Para medir outro link, basta pôr `data-track="nome"` e `data-track-*` nele; um único listener em `src/analytics.js` cuida de tudo.
+
+## Página 404
+
+`404.html` (entrada extra no `vite.config.js`). A Vercel serve essa página sozinha, com status 404, para qualquer endereço que não existe. Tem `noindex` e fica fora do sitemap.
 
 ## QR codes
 

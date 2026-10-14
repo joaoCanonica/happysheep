@@ -1649,9 +1649,10 @@ footer {
   background: var(--ink);
   color: var(--paper);
   font:
-    400 2.1rem/1 "DM Serif Display",
+    400 clamp(1.5rem, 6.4vw, 2.1rem) / 1 "DM Serif Display",
     Georgia,
     serif;
+  text-align: left;
   text-decoration: none;
   transition: background 0.3s;
 }

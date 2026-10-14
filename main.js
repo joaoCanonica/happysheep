@@ -1,6 +1,30 @@
+import { setupAnalytics, track } from "./src/analytics.js";
 import { DAY_KEYS, cafeStatus, dublinNow, heroStatus } from "./src/status.js";
 
+setupAnalytics();
+
 const root = document.documentElement;
+// Posters dos vídeos só quando o vídeo chega perto da tela: o navegador baixa
+// o poster na hora, mesmo longe da primeira dobra, e ele disputaria banda com
+// a foto da hero (o LCP).
+// Observa a seção, não o vídeo: o da galeria pode estar fora da área visível
+// do carrossel.
+const posterObserver = new IntersectionObserver(
+  (entries) =>
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target
+        .querySelectorAll("video[data-poster]")
+        .forEach((v) => (v.poster = v.dataset.poster));
+      posterObserver.unobserve(entry.target);
+    }),
+  { rootMargin: "600px 0px" },
+);
+new Set(
+  [...document.querySelectorAll("video[data-poster]")].map((v) =>
+    v.closest("section"),
+  ),
+).forEach((section) => posterObserver.observe(section));
 root.classList.add("js");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)");
 let paused = reduce.matches;
@@ -100,6 +124,7 @@ document.querySelectorAll(".reveal").forEach((e) => reveal.observe(e));
 play.addEventListener("click", async () => {
   try {
     await video.play();
+    track("video_play", { video: "good-vibes" });
     toggle.focus();
   } catch {
     // Se o navegador recusar o play, o botão continua lá.

@@ -41,14 +41,17 @@
       rel="preload"
       as="font"
       type="font/woff2"
-      href="/assets/fonts/dm-serif-display-latin.woff2"
+      href="/assets/fonts/dm-serif-display-italic-latin.woff2"
       crossorigin
     />
+    <!-- A serifa regular só aparece na primeira dobra do desktop (letreiro);
+         no celular ela ficaria disputando banda com a foto da hero (LCP). -->
     <link
       rel="preload"
       as="font"
       type="font/woff2"
-      href="/assets/fonts/dm-serif-display-italic-latin.woff2"
+      href="/assets/fonts/dm-serif-display-latin.woff2"
+      media="(min-width: 761px)"
       crossorigin
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -133,6 +136,8 @@
         href="https://www.instagram.com/happysheepdublin/"
         target="_blank"
         rel="noopener"
+        data-track="instagram"
+        data-track-place="menu"
         >Instagram ↗</a
       >
     </div>
@@ -378,6 +383,8 @@
               href="https://www.instagram.com/happysheepdublin/"
               target="_blank"
               rel="noopener"
+              data-track="instagram"
+              data-track-place="gifts"
               >Ask us what's in stock <span>↗</span></a
             >
             <!-- @quote r18 -->
@@ -443,7 +450,7 @@
               preload="none"
               width="720"
               height="1280"
-              poster="/assets/good-vibes-poster-720.webp"
+              data-poster="/assets/good-vibes-poster-720.webp"
               aria-label="Video of Snoopy rainbow mugs and Good Vibes mugs stacked in their boxes"
             >
               <source src="/assets/good-vibes.webm" type="video/webm" />
@@ -559,7 +566,7 @@
                 preload="none"
                 width="720"
                 height="1280"
-                poster="/assets/video/iced-latte-pour-hq-poster.webp"
+                data-poster="/assets/video/iced-latte-pour-hq-poster.webp"
                 aria-label="Iced latte being poured at the counter, with bags of Happy Sheep Original Blend behind"
               >
                 <source
@@ -673,6 +680,8 @@
             href="https://www.instagram.com/happysheepdublin/"
             target="_blank"
             rel="noopener"
+            data-track="instagram"
+            data-track-place="gallery"
             >More on Instagram ↗</a
           >
         </div>
@@ -690,6 +699,8 @@
             href="https://www.instagram.com/happysheepdublin/"
             target="_blank"
             rel="noopener"
+            data-track="instagram"
+            data-track-place="closing"
             >Follow us on Instagram <span>↗</span></a
           >
         </div>
@@ -704,6 +715,8 @@
           href="https://www.instagram.com/happysheepdublin/"
           target="_blank"
           rel="noopener"
+          data-track="instagram"
+          data-track-place="footer"
           >Instagram ↗</a
         ><a href="#home">Back to top ↑</a
         ><button id="motion" type="button" aria-pressed="false">

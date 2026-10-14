@@ -138,7 +138,7 @@ function reviewsSection(data, locations) {
   const buttons = locations
     .map(
       (loc) =>
-        `<a class="button small" href="${escape(data.ratings[loc.id].reviewUrl)}" target="_blank" rel="noopener"
+        `<a class="button small" href="${escape(data.ratings[loc.id].reviewUrl)}" target="_blank" rel="noopener" data-track="leave_review" data-track-cafe="${loc.id}" data-track-place="reviews"
               >Review ${escape(loc.name)} <span>↗</span></a
             >`,
     )
@@ -183,6 +183,7 @@ function reviewButtons(data, locations) {
     .map(
       (loc) =>
         `<a class="review-choice" href="${escape(data.ratings[loc.id].reviewUrl)}"
+          data-track="leave_review" data-track-cafe="${loc.id}" data-track-place="review_page"
           >${escape(loc.name)} <span aria-hidden="true">↗</span></a
         >`,
     )
@@ -211,7 +212,7 @@ function menuCafes(locations) {
         <li data-hours='${escape(JSON.stringify(loc.hours))}'>
           <strong>${escape(loc.name)}</strong>
           <span class="cafe-status" data-status hidden></span>
-          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener"
+          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener" data-track="directions" data-track-cafe="${loc.id}" data-track-place="menu"
             >Directions ↗</a
           >
         </li>`,
@@ -261,10 +262,12 @@ function cafesSection(locations, data) {
             <p class="cafe-note">${escape(loc.note)}${todo}</p>${quote}
             <div class="cafe-actions">
               <a class="button small" href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener"
+                data-track="directions" data-track-cafe="${loc.id}" data-track-place="cafes"
                 >Directions <span>↗</span></a
               ><a class="text-link" href="${escape(loc.mapsUrl)}" target="_blank" rel="noopener"
                 >See on Google Maps <span>↗</span></a
               ><a class="text-link" href="${escape(data.ratings[loc.id].reviewUrl)}" target="_blank" rel="noopener"
+                data-track="leave_review" data-track-cafe="${loc.id}" data-track-place="cafes"
                 >Leave a review <span>↗</span></a
               >
             </div>
@@ -319,7 +322,7 @@ function footerCafes(locations) {
             ${escape(loc.locality)}, ${escape(loc.postalCode)}
           </address>
           <p>${shortHours(loc.hours)}</p>
-          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener"
+          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener" data-track="directions" data-track-cafe="${loc.id}" data-track-place="footer"
             >Directions ↗</a
           >
         </div>`,
@@ -328,7 +331,7 @@ function footerCafes(locations) {
   const handle = new URL(INSTAGRAM_URL).pathname.replaceAll("/", "");
   return `<div class="footer-cafes">${cafes}
         <div class="footer-cafe">
-          <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener">Instagram ↗</a>
+          <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener" data-track="instagram" data-track-place="footer">Instagram ↗</a>
           <p>@${handle}</p>
         </div>
       </div>`;
@@ -362,13 +365,19 @@ function faqSection(faq) {
             <p>
               Send us a message on Instagram and one of us will get back to you.
             </p>
-            <a class="button" href="${INSTAGRAM_URL}" target="_blank" rel="noopener"
+            <a class="button" href="${INSTAGRAM_URL}" target="_blank" rel="noopener" data-track="instagram" data-track-place="faq"
               >Message us on Instagram <span>↗</span></a
             >
           </aside>
         </div>
       </section>`;
 }
+
+// Maior arquivo gerado de uma foto (src/data/images.json).
+const largestImage = (name) => {
+  const image = readJson("images.json")[name];
+  return `${SITE_URL}assets/img/${name}-${Math.max(...image.widths)}.webp`;
+};
 
 function jsonLd(locations, faq) {
   const org = `${SITE_URL}#org`;
@@ -378,13 +387,17 @@ function jsonLd(locations, faq) {
     name: `Happy Sheep Dublin – ${loc.name}`,
     parentOrganization: { "@id": org },
     url: `${SITE_URL}#cafes`,
-    image: `${SITE_URL}assets/img/coffee-brownie-902.webp`,
+    image: largestImage(loc.photo),
+    // Só se existirem nos dados: nada de telefone ou email inventado.
+    ...(loc.telephone && { telephone: loc.telephone }),
+    ...(loc.email && { email: loc.email }),
     servesCuisine: "Coffee",
     priceRange: "€",
     address: {
       "@type": "PostalAddress",
-      streetAddress: loc.streetAddress,
-      addressLocality: loc.locality,
+      // O bairro vai no endereço; a cidade é Dublin.
+      streetAddress: `${loc.streetAddress}, ${loc.locality.split(",")[0]}`,
+      addressLocality: "Dublin",
       postalCode: loc.postalCode,
       addressRegion: "Co. Dublin",
       addressCountry: "IE",
@@ -452,7 +465,16 @@ function sitemap() {
 `;
 }
 
-function llms(locations) {
+// "Reviews: rated 4.7 (Dundrum) and 4.5 (Terenure) on Google, October 2026"
+function googleRatings(locations, reviews) {
+  const rated = locations
+    .map((loc) => `${reviews.ratings[loc.id].rating.toFixed(1)} (${loc.name})`)
+    .join(" and ");
+  const [year, month] = reviews.ratings[locations[0].id].checked.split("-");
+  return `Reviews: rated ${rated} on Google, ${MONTHS[Number(month) - 1]} ${year}`;
+}
+
+function llms(locations, reviews) {
   const cafes = locations
     .map((loc) => {
       const hours = groupHours(loc.hours)
@@ -464,15 +486,16 @@ function llms(locations) {
 - Opening hours:
 ${hours}
 - ${loc.note}
-- Directions: ${loc.directionsUrl}`;
+- [Directions to ${loc.name}](${loc.directionsUrl})
+- [${loc.name} on Google Maps](${loc.mapsUrl})`;
     })
     .join("\n\n");
   return `# Happy Sheep Dublin
 
 > Independent coffee shop with two cafés on the south side of Dublin, Ireland: Dundrum and Terenure. Coffee, homemade bakes, lunch and a few gifts.
 
-Website: ${SITE_URL}
-Instagram: ${INSTAGRAM_URL}
+- [Website](${SITE_URL})
+- [Instagram](${INSTAGRAM_URL})
 
 ## Cafés
 
@@ -492,6 +515,7 @@ ${cafes}
 - Dundrum is mostly takeaway, with tables outside and a couple of seats in.
 - Gifts: official Peanuts (Snoopy) mugs, Good Vibes rainbow mugs, Happy Sheep tote bags and insulated cups.
 - Both cafés are closed on Sundays.
+- ${googleRatings(locations, reviews)}
 `;
 }
 
@@ -532,11 +556,11 @@ export default function siteData() {
     reviews: readJson("reviews.json"),
   });
   const files = () => {
-    const { locations } = load();
+    const { locations, reviews } = load();
     return {
       "robots.txt": robots(),
       "sitemap.xml": sitemap(),
-      "llms.txt": llms(locations),
+      "llms.txt": llms(locations, reviews),
     };
   };
   return {

@@ -6,7 +6,12 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // review.html é a página do QR code do balcão (/review com cleanUrls).
-      input: { main: "index.html", review: "review.html" },
+      // 404.html: a Vercel serve sozinha quando a página não existe.
+      input: {
+        main: "index.html",
+        review: "review.html",
+        notFound: "404.html",
+      },
     },
   },
 });
