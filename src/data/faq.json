@@ -25,10 +25,6 @@
     "a": "You can get in, but Terenure is a small space. Give us a shout at the door and we'll make room."
   },
   {
-    "q": "Do you sell gift cards?",
-    "a": "Not at the moment, sorry. Our mugs and totes make a decent present though."
-  },
-  {
     "q": "Are kids welcome?",
     "a": "Of course."
   }

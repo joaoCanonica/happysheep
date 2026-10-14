@@ -662,11 +662,6 @@ html.menu-open {
   margin-top: 2rem;
   max-width: 360px;
 }
-.film-note {
-  display: block;
-  font-size: 0.8rem;
-  margin-top: 3rem;
-}
 .film-wrap {
   position: relative;
   max-width: 360px;
@@ -789,19 +784,18 @@ html.menu-open {
 }
 .review-track {
   display: flex;
-  align-items: stretch;
+  align-items: start;
   gap: 2rem;
   padding: 1.5rem 1.2rem 2.5rem 0.5rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: var(--green) transparent;
+  scrollbar-width: none;
 }
 .review-card {
   display: flex;
   flex: 0 0 min(370px, 80vw);
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.5rem;
   padding: 1.8rem;
   border: 1px solid var(--ink);
   border-radius: 18px;
@@ -828,12 +822,14 @@ html.menu-open {
   margin: 0;
   font-size: 1.02rem;
 }
+.review-card.is-long blockquote {
+  font-size: 0.94rem;
+}
 .review-card figcaption {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem 0.6rem;
-  margin-top: auto;
   font-size: 0.9rem;
 }
 .review-tag {
@@ -985,9 +981,45 @@ html.menu-open {
 .faq h2 em {
   color: var(--red);
 }
+.faq-layout {
+  display: grid;
+  gap: 3rem;
+}
 .faq-list {
   max-width: 920px;
   border-top: 1px solid var(--line);
+}
+.faq-card {
+  display: grid;
+  justify-items: start;
+  gap: 1.2rem;
+  padding: clamp(1.75rem, 3vw, 2.75rem);
+  background: var(--paper);
+  border-radius: 18px;
+  box-shadow: 15px 24px 0 #202d2220;
+}
+.faq-card .eyebrow {
+  margin-bottom: 0;
+}
+.faq-card h3 {
+  font-size: clamp(2rem, 3vw, 2.8rem);
+}
+.faq-card h3 em {
+  color: var(--red);
+}
+.faq-card p:not(.eyebrow) {
+  max-width: 36ch;
+}
+@media (min-width: 1000px) {
+  .faq-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(3rem, 6vw, 7rem);
+    align-items: start;
+  }
+  .faq-card {
+    position: sticky;
+    top: calc(102px + 2rem);
+  }
 }
 .faq-item {
   border-bottom: 1px solid var(--line);
@@ -1017,6 +1049,9 @@ html.menu-open {
 }
 .faq-item[open] summary::after {
   transform: rotate(45deg);
+}
+.faq-answer {
+  overflow: hidden;
 }
 .faq-item p {
   max-width: 60ch;
@@ -1053,9 +1088,27 @@ html.menu-open {
   gap: 2rem;
   overflow: auto;
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
+  scrollbar-width: none;
   padding: 1rem 0 1.5rem;
-  scrollbar-color: var(--green) transparent;
+}
+/* Sem barra de rolagem nativa: no lugar, a linha de progresso abaixo. */
+.gallery::-webkit-scrollbar,
+.review-track::-webkit-scrollbar {
+  display: none;
+}
+.carousel-progress {
+  height: 2px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background: #202d2233;
+}
+.carousel-progress span {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left;
+  transform: scaleX(var(--progress, 0));
+  transition: transform 0.15s linear;
 }
 .gallery figure {
   flex: 0 0 auto;
@@ -1124,6 +1177,41 @@ footer {
   display: block;
   letter-spacing: 0.4em;
   margin-top: 2rem;
+}
+.footer-cafes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin-top: 3.5rem;
+  font-size: 0.9rem;
+}
+.footer-cafe {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 0.6rem;
+}
+.footer-cafe-name {
+  font:
+    400 1.9rem/1 "DM Serif Display",
+    Georgia,
+    serif;
+}
+.footer-cafe address {
+  font-style: normal;
+}
+.footer-cafe a {
+  font-weight: 600;
+  text-decoration: none;
+}
+.footer-cafe a:hover {
+  color: var(--yellow);
+}
+@media (max-width: 760px) {
+  .footer-cafes {
+    grid-template-columns: 1fr;
+    gap: 2.2rem;
+  }
 }
 .footer-links {
   margin-top: 3rem;
@@ -1448,9 +1536,6 @@ footer {
   .film-wrap {
     max-width: 320px;
   }
-  .film-note {
-    margin-top: 1.5rem;
-  }
   .gallery-controls {
     margin-top: 1.5rem;
   }
@@ -1577,4 +1662,22 @@ footer {
   display: inline-block;
   margin-top: 2rem;
   font-size: 0.85rem;
+}
+/* Telas muito largas: o conteúdo para em 1600px, centralizado; os fundos das
+   seções continuam de ponta a ponta. Abaixo de 1700px nada muda. */
+@media (min-width: 1700px) {
+  .section,
+  footer,
+  .hero-bottom {
+    padding-left: max(5vw, calc((100% - 1600px) / 2));
+    padding-right: max(5vw, calc((100% - 1600px) / 2));
+  }
+  .header {
+    padding-left: max(4vw, calc((100% - 1600px) / 2));
+    padding-right: max(4vw, calc((100% - 1600px) / 2));
+  }
+  /* A coluna do texto é 1.05/2.05 da hero: 100% * 2.05 / 1.05 = largura toda. */
+  .hero-copy {
+    padding-left: max(5vw, calc((100% * 2.05 / 1.05 - 1600px) / 2));
+  }
 }

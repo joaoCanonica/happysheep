@@ -59,13 +59,13 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 
 ## Estrutura
 
-- `index.html`: conteúdo, seções e `<head>`. Os marcadores `<!-- @cafes -->`, `<!-- @faq -->` e `<!-- @jsonld -->` são preenchidos no build; `%SITE_URL%` vira a URL do site.
+- `index.html`: conteúdo, seções e `<head>`. Os marcadores `<!-- @... -->` (cafés, avaliações, FAQ, menu mobile, rodapé com as lojas, JSON-LD) são preenchidos no build; `%SITE_URL%` vira a URL do site.
 - `src/data/locations.json`: as duas lojas (endereço, Eircode, coordenadas, place_id, horário em 24h, detalhes, links do Google Maps). **Horário e endereço se mudam só aqui.**
 - `src/data/reviews.json`: avaliações do Google, copiadas literalmente dos prints. **Não formatar nem editar** (está no `.prettierignore`). O site usa `ratings` (nota, quantidade, link de avaliar por loja) e `reviews` (`quote`, `name`, `location`, `featured`, `section`). `fullText`, `ownerReply`, `notOnSite` e `factsFromReviews` não vão para o site. Ordem do carrossel: `featured` 1, 2, 3…, depois o resto na ordem do arquivo; quem tem `section` aparece na seção indicada (`gifts`, `cafe-dundrum`, `cafe-terenure`), não no carrossel. As citações em Gifts são escolhidas por id no HTML (`<!-- @quote r18 -->`). Nunca exibir datas, nunca corrigir a ortografia de um quote, nunca usar AggregateRating/Review no JSON-LD.
 - `review.html`: página `/review` do QR code do balcão (noindex, fora do sitemap). Leva direto à tela de avaliar de cada loja, sem pedir nota antes, sem filtrar cliente e sem brinde, como exige a política do Google.
 - `src/data/faq.json`: perguntas e respostas do FAQ. O mesmo texto vai para a página e para o JSON-LD (FAQPage).
 - `scripts/site.config.mjs`: `SITE_URL`. Troque aqui quando houver domínio próprio; canonical, og:url, JSON-LD, robots.txt, sitemap.xml e llms.txt mudam juntos.
-- `scripts/site-data-plugin.mjs`: plugin do Vite que lê `src/data/` e escreve no HTML as seções #cafes e #faq e o JSON-LD, e gera `robots.txt`, `sitemap.xml` e `llms.txt` no build (no dev, servidos pelo próprio Vite). Por isso esses três arquivos não ficam em `public/`.
+- `scripts/site-data-plugin.mjs`: plugin do Vite que lê `src/data/` e escreve no HTML as seções #cafes, #reviews e #faq, as lojas do menu mobile e do rodapé e o JSON-LD, e gera `robots.txt`, `sitemap.xml` e `llms.txt` no build (no dev, servidos pelo próprio Vite). Por isso esses três arquivos não ficam em `public/`.
 - `style.css`: visual, animações e responsividade.
 - `main.js`: menu mobile (painel de tela cheia), link ativo do header, galeria, vídeos, revelação ao rolar, botão "Pause animations" e o status ao vivo (hero, cards de #cafes e menu).
 - `src/status.js`: a lógica do status ao vivo, sempre no fuso Europe/Dublin. É a mesma para o navegador, o build e os testes (`tests/status.test.mjs`). Sem JS, a hero mostra "Find us in Dundrum & Terenure" e os cards só a tabela.
@@ -89,7 +89,7 @@ Cada push na branch `main` gera um deploy. As configurações ficam em `vercel.j
 
 ## Pedir ao cliente
 
-Pedir ao cliente os originais do celular (não do Instagram): foto da hero, caneca Peanuts e vídeo do iced latte. E o logo em vetor (SVG, PDF ou AI): o único arquivo que temos tem 150 px, então a versão 2x é ampliada. Os arquivos atuais vieram de downloads do Instagram (a hero tem 902 px, a Peanuts 716 px, o vídeo 720p comprimido) e por isso têm um tamanho máximo na tela; com os originais, dá para mostrar maior e mais nítido. Pedir também o logo em vetor (SVG, PDF ou AI): o único arquivo que temos tem 150 px, então a versão 2x do logo é ampliada e fica um pouco macia em tela retina.
+Pedir ao cliente os originais do celular (não do Instagram): foto da hero, caneca Peanuts e vídeo do iced latte. E o logo em vetor (SVG, PDF ou AI): o único arquivo que temos tem 150 px, então a versão 2x é ampliada. Os arquivos atuais vieram de downloads do Instagram (a hero tem 902 px, a Peanuts 716 px, o vídeo 720p comprimido) e por isso têm um tamanho máximo na tela; com os originais, dá para mostrar maior e mais nítido.
 
 ## Pasta `source-media`
 
@@ -107,6 +107,8 @@ Subpastas:
 - `source-media/video/iced-latte-pour.mp4`: original do vídeo do iced latte.
 - `source-media/pending-owner/`: **dependem de confirmação do dono antes de entrar no site.** `travel-cup-beige.jpg` (copo bege) e `enamel-mug.jpg` (caneca esmaltada) parecem render ou montagem, não foto do produto real.
 
+Telas a partir de 1700 px: o conteúdo para em 1600 px, centralizado, e os fundos continuam de ponta a ponta (fim do `style.css`). Abaixo disso nada muda.
+
 Cada foto aparece uma vez só no site. A foto do brownie com o café fica só na hero, a caneca Peanuts só em Gifts.
 
 ## Integrações
@@ -115,4 +117,4 @@ O Instagram abre o perfil @happysheepdublin. Não há backend, banco de dados ne
 
 O bloco "Your own cup" em Gifts tem um `<!-- TODO -->`: falta o dono confirmar que vende o copo térmico.
 
-Ainda não existem cardápio digital nem fotos das fachadas. As âncoras `#cafes` e `#reviews` do menu serão criadas nas próximas etapas.
+Ainda não existem cardápio digital nem fotos das fachadas. Cada card de #cafes tem um slot de foto oculto (`<!-- TODO: foto da fachada -->`) pronto para elas.

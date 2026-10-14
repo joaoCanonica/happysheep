@@ -152,10 +152,16 @@ function setupCarousel(track, prev, next) {
         : (lefts.findLast((l) => l < x - 5) ?? 0);
     track.scrollTo({ left: target, behavior: paused ? "instant" : "smooth" });
   }
+  // Linha de progresso logo depois do carrossel (no lugar da barra nativa).
+  const progress = track.parentElement.querySelector(".carousel-progress");
   function state() {
     prev.disabled = track.scrollLeft < 5;
     next.disabled =
       track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
+    progress?.style.setProperty(
+      "--progress",
+      Math.min(1, (track.scrollLeft + track.clientWidth) / track.scrollWidth),
+    );
   }
   prev.addEventListener("click", () => move(-1));
   next.addEventListener("click", () => move(1));
@@ -257,4 +263,44 @@ const sectionObserver = new IntersectionObserver(
 );
 navSections.forEach((id) =>
   sectionObserver.observe(document.getElementById(id)),
+);
+
+// FAQ em acordeão: abrir uma pergunta fecha a anterior, com animação de
+// altura (sem animação com animações pausadas ou reduced-motion).
+const faqItems = [...document.querySelectorAll(".faq-item")];
+function setFaq(item, open) {
+  const answer = item.querySelector(".faq-answer");
+  item.animation?.cancel();
+  item.closing = false;
+  if (paused) {
+    item.open = open;
+    return;
+  }
+  if (open) {
+    item.open = true;
+    item.animation = answer.animate(
+      [{ height: "0px" }, { height: `${answer.scrollHeight}px` }],
+      { duration: 280, easing: "ease-out" },
+    );
+  } else {
+    item.animation = answer.animate(
+      [{ height: `${answer.offsetHeight}px` }, { height: "0px" }],
+      { duration: 220, easing: "ease-in" },
+    );
+    item.closing = true;
+    item.animation.onfinish = () => {
+      item.open = false;
+      item.closing = false;
+    };
+  }
+}
+faqItems.forEach((item) =>
+  item.querySelector("summary").addEventListener("click", (e) => {
+    e.preventDefault();
+    const opening = !item.open || item.closing;
+    faqItems
+      .filter((other) => other !== item && other.open)
+      .forEach((other) => setFaq(other, false));
+    setFaq(item, opening);
+  }),
 );

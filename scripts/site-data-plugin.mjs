@@ -111,7 +111,7 @@ function reviewsSection(data, locations) {
     .map((r) => {
       const place = locationName(r.location, locations);
       return `
-          <figure class="review-card">
+          <figure class="review-card${r.quote.length > 260 ? " is-long" : ""}">
             ${stars(r.rating)}
             <blockquote>${quoteHtml(r.quote)}</blockquote>
             <figcaption>
@@ -167,6 +167,7 @@ function reviewsSection(data, locations) {
           tabindex="0"
         >${cards}
         </div>
+        <div class="carousel-progress" aria-hidden="true"><span></span></div>
         <div class="reviews-foot">
           <p>Been in? Tell people about it.</p>
           <div class="reviews-actions">
@@ -285,13 +286,61 @@ function cafesSection(locations, data) {
       </section>`;
 }
 
+// Horário resumido do rodapé: "Mon–Fri 7am–3.50pm · Sat 8am–3pm".
+const SHORT_DAYS = {
+  mon: "Mon",
+  tue: "Tue",
+  wed: "Wed",
+  thu: "Thu",
+  fri: "Fri",
+  sat: "Sat",
+  sun: "Sun",
+};
+const shortHours = (hours) =>
+  groupHours(hours)
+    .filter((g) => g.hours)
+    .map((g) => {
+      const days =
+        g.days.length === 1
+          ? SHORT_DAYS[g.days[0]]
+          : `${SHORT_DAYS[g.days[0]]}–${SHORT_DAYS[g.days.at(-1)]}`;
+      return `${days} ${hoursText(g.hours)}`;
+    })
+    .join(" · ");
+
+function footerCafes(locations) {
+  const cafes = locations
+    .map(
+      (loc) => `
+        <div class="footer-cafe">
+          <p class="footer-cafe-name">${escape(loc.name)}</p>
+          <address>
+            ${escape(loc.streetAddress)},<br />
+            ${escape(loc.locality)}, ${escape(loc.postalCode)}
+          </address>
+          <p>${shortHours(loc.hours)}</p>
+          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener"
+            >Directions ↗</a
+          >
+        </div>`,
+    )
+    .join("");
+  const handle = new URL(INSTAGRAM_URL).pathname.replaceAll("/", "");
+  return `<div class="footer-cafes">${cafes}
+        <div class="footer-cafe">
+          <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener">Instagram ↗</a>
+          <p>@${handle}</p>
+        </div>
+      </div>`;
+}
+
 function faqSection(faq) {
   const items = faq
     .map(
       (item) => `
           <details class="faq-item">
             <summary>${escape(item.q)}</summary>
-            <p>${escape(item.a)}</p>${item.todo ? `\n            <!-- TODO: ${item.todo} -->` : ""}
+            <div class="faq-answer"><p>${escape(item.a)}</p></div>${item.todo ? `\n            <!-- TODO: ${item.todo} -->` : ""}
           </details>`,
     )
     .join("");
@@ -302,7 +351,21 @@ function faqSection(faq) {
             <h2 id="faq-title">Before you <em>pop in.</em></h2>
           </div>
         </div>
-        <div class="faq-list reveal">${items}
+        <div class="faq-layout">
+          <div class="faq-list reveal">${items}
+          </div>
+          <aside class="faq-card reveal" aria-labelledby="faq-card-title">
+            <p class="eyebrow">Still wondering?</p>
+            <h3 id="faq-card-title">
+              Something we <em>haven't covered?</em>
+            </h3>
+            <p>
+              Send us a message on Instagram and one of us will get back to you.
+            </p>
+            <a class="button" href="${INSTAGRAM_URL}" target="_blank" rel="noopener"
+              >Message us on Instagram <span>↗</span></a
+            >
+          </aside>
         </div>
       </section>`;
 }
@@ -428,7 +491,6 @@ ${cafes}
 - Terenure is dog-friendly: water bowl inside and treats at the counter. It has sofas, sells cosmetics, has paid on-street parking nearby and is wheelchair accessible but a small space. Kids welcome.
 - Dundrum is mostly takeaway, with tables outside and a couple of seats in.
 - Gifts: official Peanuts (Snoopy) mugs, Good Vibes rainbow mugs, Happy Sheep tote bags and insulated cups.
-- No gift cards at the moment.
 - Both cafés are closed on Sundays.
 `;
 }
@@ -509,6 +571,7 @@ export default function siteData() {
         .replace("<!-- @review-buttons -->", reviewButtons(reviews, locations))
         .replace("<!-- @cafes -->", cafesSection(locations, reviews))
         .replace("<!-- @menu-cafes -->", menuCafes(locations))
+        .replace("<!-- @footer-cafes -->", footerCafes(locations))
         .replace("<!-- @faq -->", faqSection(faq))
         .replace("<!-- @jsonld -->", jsonLd(locations, faq));
     },
