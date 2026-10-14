@@ -1405,7 +1405,7 @@ footer {
     grid-template-rows: auto;
   }
   .hero-copy {
-    padding: 3.1rem 1.25rem 3.6rem;
+    padding: 3.1rem 1.25rem 4.25rem;
   }
   .hero .eyebrow {
     font-size: 0.65rem;
@@ -1429,7 +1429,10 @@ footer {
   .br {
     display: inline;
   }
+  /* Empilhados: lado a lado (a partir de ~420px) o link ia para baixo do selo. */
   .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
     margin-top: 1.4rem;
   }
   .hero-photo {
@@ -1520,7 +1523,10 @@ footer {
   .brownie {
     margin: 2rem 0 0 2.5rem;
   }
+  /* width: auto: com a margem lateral, o width: 100% do desktop passava 8px
+     da tela e criava scroll horizontal. */
   .gift-photo {
+    width: auto;
     margin: 0.5rem 1rem;
   }
   .gift-copy {
@@ -1544,6 +1550,15 @@ footer {
   }
   .gallery {
     --gallery-h: 370px;
+  }
+  /* Foto em paisagem: no celular ficaria com 2/3 da altura das outras e
+     deixaria um buraco embaixo; ocupa a mesma altura, com recorte lateral. */
+  .gallery figure[style*="680 / 510"] > div {
+    aspect-ratio: auto;
+    height: var(--gallery-h);
+  }
+  .gallery figure[style*="680 / 510"] img {
+    object-position: 62% center;
   }
   .gallery figure:nth-child(even) {
     padding-top: 1.8rem;

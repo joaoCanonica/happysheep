@@ -212,7 +212,7 @@ function menuCafes(locations) {
         <li data-hours='${escape(JSON.stringify(loc.hours))}'>
           <strong>${escape(loc.name)}</strong>
           <span class="cafe-status" data-status hidden></span>
-          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener" data-track="directions" data-track-cafe="${loc.id}" data-track-place="menu"
+          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener" data-track="directions" data-track-cafe="${loc.id}" data-track-place="menu" aria-label="Directions to ${escape(loc.name)} (opens in Google Maps)"
             >Directions ↗</a
           >
         </li>`,
@@ -262,12 +262,13 @@ function cafesSection(locations, data) {
             <p class="cafe-note">${escape(loc.note)}${todo}</p>${quote}
             <div class="cafe-actions">
               <a class="button small" href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener"
-                data-track="directions" data-track-cafe="${loc.id}" data-track-place="cafes"
+                data-track="directions" data-track-cafe="${loc.id}" data-track-place="cafes" aria-label="Directions to ${escape(loc.name)} (opens in Google Maps)"
                 >Directions <span>↗</span></a
               ><a class="text-link" href="${escape(loc.mapsUrl)}" target="_blank" rel="noopener"
+                aria-label="See on Google Maps: ${escape(loc.name)}"
                 >See on Google Maps <span>↗</span></a
               ><a class="text-link" href="${escape(data.ratings[loc.id].reviewUrl)}" target="_blank" rel="noopener"
-                data-track="leave_review" data-track-cafe="${loc.id}" data-track-place="cafes"
+                data-track="leave_review" data-track-cafe="${loc.id}" data-track-place="cafes" aria-label="Leave a review for ${escape(loc.name)} on Google"
                 >Leave a review <span>↗</span></a
               >
             </div>
@@ -322,7 +323,7 @@ function footerCafes(locations) {
             ${escape(loc.locality)}, ${escape(loc.postalCode)}
           </address>
           <p>${shortHours(loc.hours)}</p>
-          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener" data-track="directions" data-track-cafe="${loc.id}" data-track-place="footer"
+          <a href="${escape(loc.directionsUrl)}" target="_blank" rel="noopener" data-track="directions" data-track-cafe="${loc.id}" data-track-place="footer" aria-label="Directions to ${escape(loc.name)} (opens in Google Maps)"
             >Directions ↗</a
           >
         </div>`,
